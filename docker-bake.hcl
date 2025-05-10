@@ -3,6 +3,7 @@ group "default" {
     "ldap_server",
     "ldap_admin",
     "shinyproxy",
+    "shinyapp",
   ]
 }
 
@@ -35,4 +36,15 @@ target "shinyproxy" {
     SHINYPROXY_VERSION = "3.1.1"
   }
   tags = ["shiny-system-design/shinyproxy:latest"]
+}
+
+target "shinyapp" {
+  # Make sure to use non-arm arch to install binary packages from P3M
+  dockerfile = "Dockerfile"
+  context = "./shinyproxy/app"
+  platforms = ["linux/amd64"]
+  tags = ["shiny-system-design/shinyapp:latest"]
+  args = {
+    R_VERSION = "4.5.0"
+  }
 }
