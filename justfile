@@ -4,4 +4,4 @@ build:
 
 [doc("Start authentication stack")]
 start-auth:
-	docker compose -f compose.authentication.yml up
+	docker compose -f ./authentication/compose.yml up
