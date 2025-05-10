@@ -1,0 +1,20 @@
+services:
+  ldap_server:
+    extends:
+      file: ./authentication/compose.yml
+      service: ldap_server
+  ldap_admin:
+    extends:
+      file: ./authentication/compose.yml
+      service: ldap_admin
+  shinyproxy:
+    extends:
+      file: ./shinyproxy/compose.yml
+      service: shinyproxy
+    depends_on:
+      ldap_server:
+        condition: service_healthy
+
+networks:
+  ssd-network:
+    name: ssd-network

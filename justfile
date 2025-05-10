@@ -3,5 +3,5 @@ build:
 	docker buildx bake
 
 [doc("Start authentication stack")]
-start-auth:
-	docker compose -f ./authentication/compose.yml up
+start:
+	docker compose up
