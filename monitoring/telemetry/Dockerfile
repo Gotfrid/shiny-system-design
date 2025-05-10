@@ -13,4 +13,4 @@ RUN R -q -e "renv::restore(clean=TRUE)"
 
 COPY . .
 
-CMD ["Rscript", "entrypoint.R"]
+CMD ["Rscript", "plumber.R"]

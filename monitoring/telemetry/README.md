@@ -3,5 +3,9 @@
 The R code is a courtesy of Appsilon, cloned from [shiny.telemetry](https://github.com/Appsilon/shiny.telemetry/tree/85add128cfd40d43d4a40694ac891d99625b9876/plumber_rest_api)
 repository at `85add128cfd40d43d4a40694ac891d99625b9876` commit.
 
-In this instance, renv-related files have been updated to take advantage of binary linux packages.
-Also, a Dockerfile is also not a part of the original code bundle.
+In the scope of this project a few changes have been made to the code:
+
+- Added Dockerfile
+- Re-created renv.lock and renv/activate.R files
+- Explicitly set plumber port to `0.0.0.0` to work with Docker
+- Change the path to stored logfile to allow for a Docker Volume

@@ -6,4 +6,4 @@ default:
     driver: "logfile"
     logfile:
       params:
-        log_file_path: "user_stats.txt"
+        log_file_path: "/app/logs/user_stats.txt"

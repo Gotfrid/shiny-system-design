@@ -5,7 +5,7 @@ services:
     pull_policy: never
     restart: always
     volumes:
-      - ./telemetry/user_stats.txt:/app/user_stats.txt
+      - ./telemetry/logs:/app/logs
     ports:
       - 8087:8087
     networks:
