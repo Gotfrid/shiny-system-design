@@ -8,6 +8,9 @@ services:
       - 636:636
     networks:
       - ssd-network
+    volumes:
+      - ./ldap_server/data/directories:/var/lib/ldap
+      - ./ldap_server/data/configs:/etc/ldap/slapd.d
     healthcheck:
       test: ["CMD", "cat", "/run/slapd/slapd.pid"]
       interval: 15s
