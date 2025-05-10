@@ -1,0 +1,12 @@
+services:
+  telemetry_api:
+    container_name: telemetry_api
+    image: shiny-system-design/telemetry_api:latest
+    pull_policy: never
+    restart: always
+    volumes:
+      - ./telemetry/user_stats.txt:/app/user_stats.txt
+    ports:
+      - 8087:8087
+    networks:
+      - ssd-network

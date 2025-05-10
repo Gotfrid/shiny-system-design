@@ -1,0 +1,9 @@
+default:
+  log_level: DEBUG
+  tokens: !expr Sys.getenv("SECRET_TOKENS")
+  allow_empty_tokens: true
+  storage_method:
+    driver: "logfile"
+    logfile:
+      params:
+        log_file_path: "user_stats.txt"
