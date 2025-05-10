@@ -32,3 +32,5 @@ To setup OpenLDAP via the admin UI:
 - You are now logged in as the admin user
   - You can now add new users and control their group
   - Remember, that the group (either `admins` or `users` will have effect on what the user will see in Shinyproxy!)
+- The LDAP configuration is persisted via a docker volume
+  - Only one time configuration is required
