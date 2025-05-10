@@ -1,17 +1,30 @@
 # Source code courtesy of Posit team
 # at https://shiny.posit.co/
 
-library(shiny)
 library(bslib)
 library(dplyr)
-library(ggplot2)
 library(ggExtra)
+library(ggplot2)
+library(shiny.telemetry)
+library(shiny)
 
 penguins_csv <- "./datasets/penguins.csv"
 
 df <- readr::read_csv(penguins_csv)
 # Find subset of columns that are suitable for scatter plot
 df_num <- df |> select(where(is.numeric), -Year)
+
+telemetry <- Telemetry$new(
+  app_name = "penguins_explorer",
+  data_storage = DataStoragePlumber$new(
+    hostname = "telemetry_api",
+    port = 8087,
+    protocol = "http",
+    path = NULL,
+    secret = NULL,
+    authorization = NULL
+  )
+)
 
 ui <- function(request) {
   page_sidebar(
@@ -28,11 +41,14 @@ ui <- function(request) {
       checkboxInput("show_margins", "Show marginal plots", TRUE),
       checkboxInput("smooth", "Add smoother"),
     ),
+    use_telemetry(),
     plotOutput("scatter")
   )
 }
 
 server <- function(input, output, session) {
+  telemetry$start_session(track_values = TRUE)
+
   subsetted <- reactive({
     req(input$species)
     df |> filter(Species %in% input$species)
