@@ -1,7 +1,6 @@
 ARG LDAP_ADMIN_VERSION=v1.11
-ARG PLATFORM=amd64
 
-FROM --platform=${PLATFORM} wheelybird/ldap-user-manager:${LDAP_ADMIN_VERSION}
+FROM wheelybird/ldap-user-manager:${LDAP_ADMIN_VERSION}
 
 ENV NO_HTTPS=true
 ENV LDAP_URI="ldap://ldap_server"

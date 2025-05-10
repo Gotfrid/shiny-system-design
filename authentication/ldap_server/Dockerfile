@@ -1,7 +1,6 @@
 ARG OPENLDAP_VERSION=1.1.8
-ARG PLATFORM=amd64
 
-FROM --platform=${PLATFORM} osixia/openldap:${OPENLDAP_VERSION}
+FROM osixia/openldap:${OPENLDAP_VERSION}
 
 ENV LDAP_ORGANISATION="ldapusermanager"
 ENV LDAP_DOMAIN="ldapusermanager.org"
