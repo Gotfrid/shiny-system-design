@@ -1,0 +1,33 @@
+services: 
+  ldap_server:
+    container_name: ldap_server
+    image: shiny-system-design/ldap_server:latest
+    pull_policy: never
+    ports:
+      - 389:389
+      - 636:636
+    networks:
+      - ssd-network
+    healthcheck:
+      test: ["CMD", "cat", "/run/slapd/slapd.pid"]
+      interval: 15s
+      timeout: 30s
+      retries: 5
+      start_period: 5s
+
+  ldap_admin:
+    container_name: ldap_admin
+    image: shiny-system-design/ldap_admin:latest
+    pull_policy: never
+    ports:
+      - 6480:80 
+      - 6443:443
+    networks:
+      - ssd-network
+    depends_on:
+      ldap_server:
+        condition: service_healthy
+
+networks:
+  ssd-network:
+    name: ssd-network
