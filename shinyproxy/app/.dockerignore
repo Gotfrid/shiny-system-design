@@ -1,0 +1,6 @@
+*
+!.Rprofile
+!app.R
+!renv/
+!renv.lock
+!datasets
