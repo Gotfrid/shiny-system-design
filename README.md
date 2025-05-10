@@ -12,6 +12,9 @@ System design for Shiny developers based around Shinyproxy deployment.
   - Metrics
   - Services
 
+Every "domain" is developed in its own folder, and has its own Docker Compose Stack
+defined in a corresponding *compose.yml* file.
+
 ## Setup and configuration
 
 ### Authentication
