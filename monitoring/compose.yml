@@ -6,7 +6,5 @@ services:
     restart: always
     volumes:
       - ./telemetry/logs:/app/logs
-    ports:
-      - 8087:8087
     networks:
       - ssd-network
