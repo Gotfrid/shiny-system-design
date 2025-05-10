@@ -1,0 +1,30 @@
+proxy:
+  title: Shiny System Design
+  landing-page: SingleApp
+  heartbeat-rate: 10000
+  heartbeat-timeout: 60000
+  port: 8080
+  authentication: ldap
+  admin-groups: admins
+  ldap:
+    url: "ldap://ldap_server/dc=ldapusermanager,dc=org"
+    manager-dn: cn=admin,dc=ldapusermanager,dc=org
+    manager-password: admin
+    user-search-filter: (uid={0})
+    user-search-base:
+    group-search-filter: (member={0})
+    group-search-base: ou=Groups
+  docker:
+    internal-networking: true
+    image-pull-policy: Never
+  specs:
+    - id: main_app
+      display-name: Main Application
+      description: Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+      container-cmd: [ "R", "-e", "shiny::runApp(host = '0.0.0.0', port = 3838L)" ]
+      container-image: shiny-system-design/shinyapp:latest
+      container-network-connections: [ ssd-network ]
+
+logging:
+  file:
+    name: shinyproxy.log
