@@ -16,4 +16,16 @@ System design for Shiny developers based around Shinyproxy deployment.
 
 ### Authentication
 
-To setup OpenLDAP via the admin ui fo to [http://localhost:6480/setup](http://localhost:6480/setup)
+To setup OpenLDAP via the admin UI:
+
+- Visit [http://localhost:6480/setup](http://localhost:6480/setup)
+- Enter the admin password, (`admin` is the default)
+- Do not change anything, click "Next" button
+- Click "Create new account" button
+- Complete the form (you may skip email)
+- Once done, click "Finish" button
+- Proceed to login
+  - By default, login is the combination of first and last names separated with a `-`
+- You are now logged in as the admin user
+  - You can now add new users and control their group
+  - Remember, that the group (either `admins` or `users` will have effect on what the user will see in Shinyproxy!)
