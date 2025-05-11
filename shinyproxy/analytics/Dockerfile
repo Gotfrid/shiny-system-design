@@ -5,7 +5,7 @@ FROM rocker/r-ver:${R_VERSION}
 WORKDIR /app
 
 # Install R packages
-COPY ./renv/ /app/renv/
+COPY ./renv/activate.R /app/renv/activate.R
 COPY .Rprofile renv.lock /app/
 ENV RENV_CONFIG_PAK_ENABLED=TRUE
 RUN install2.r renv --error --skipinstalled
