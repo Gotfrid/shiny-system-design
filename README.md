@@ -26,6 +26,8 @@ To setup OpenLDAP via the admin UI:
 - Do not change anything, click "Next" button
 - Click "Create new account" button
 - Complete the form (you may skip email)
+  - This is going to be the first user in the system, i.e. *the* admin
+  - It is recommended to give them a distinct name, e.g. `super-admin`
 - Once done, click "Finish" button
 - Proceed to login
   - By default, login is the combination of first and last names separated with a `-`
