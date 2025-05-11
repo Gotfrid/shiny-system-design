@@ -11,9 +11,9 @@ proxy:
     manager-dn: cn=admin,dc=ldapusermanager,dc=org
     manager-password: admin
     user-search-filter: (uid={0})
-    user-search-base:
-    group-search-filter: (member={0})
-    group-search-base: ou=Groups
+    user-search-base: ou=accounts
+    group-search-filter: (memberUid={1})
+    group-search-base: ou=groups
   docker:
     internal-networking: true
     image-pull-policy: Never
