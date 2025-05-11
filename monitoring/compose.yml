@@ -8,3 +8,12 @@ services:
       - ./telemetry/logs:/app/logs
     networks:
       - ssd-network
+  prometheus:
+    container_name: prometheus
+    image: shiny-system-design/prometheus:latest
+    pull_policy: never
+    restart: always
+    ports:
+      - 9090:9090
+    networks:
+      - ssd-network

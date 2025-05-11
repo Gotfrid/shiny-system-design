@@ -6,6 +6,7 @@ group "default" {
     "shinyapp",
     "telemetry_api",
     "telemetry_dash",
+    "prometheus",
   ]
 }
 
@@ -71,4 +72,11 @@ target "telemetry_dash" {
   args = {
     R_VERSION = "4.5.0"
   }
+}
+
+target "prometheus" {
+  context = "./monitoring/prometheus/"
+  dockerfile = "Dockerfile"
+  platforms = [ "linux/amd64" ]
+  tags = ["shiny-system-design/prometheus:latest"]
 }
