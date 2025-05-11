@@ -5,6 +5,7 @@ group "default" {
     "shinyproxy",
     "shinyapp",
     "telemetry_api",
+    "telemetry_dash",
   ]
 }
 
@@ -56,6 +57,17 @@ target "telemetry_api" {
   context = "./monitoring/telemetry"
   platforms = [ "linux/amd64" ]
   tags = ["shiny-system-design/telemetry_api:latest"]
+  args = {
+    R_VERSION = "4.5.0"
+  }
+}
+
+target "telemetry_dash" {
+  # Make sure to use non-arm arch to install binary packages from P3M
+  dockerfile = "Dockerfile"
+  context = "./shinyproxy/analytics"
+  platforms = [ "linux/amd64" ]
+  tags = ["shiny-system-design/telemetry_dash:latest"]
   args = {
     R_VERSION = "4.5.0"
   }
