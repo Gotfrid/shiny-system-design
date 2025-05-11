@@ -17,3 +17,12 @@ services:
       - 9090:9090
     networks:
       - ssd-network
+  grafana:
+    container_name: grafana
+    image: shiny-system-design/grafana:latest
+    pull_policy: never
+    restart: always
+    ports:
+      - 3000:3000
+    networks:
+      - ssd-network

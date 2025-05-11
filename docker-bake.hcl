@@ -7,6 +7,7 @@ group "default" {
     "telemetry_api",
     "telemetry_dash",
     "prometheus",
+    "graphana",
   ]
 }
 
@@ -79,4 +80,11 @@ target "prometheus" {
   dockerfile = "Dockerfile"
   platforms = [ "linux/amd64" ]
   tags = ["shiny-system-design/prometheus:latest"]
+}
+
+target "graphana" {
+  context = "./monitoring/grafana/"
+  dockerfile = "Dockerfile"
+  platforms = [ "linux/amd64" ]
+  tags = ["shiny-system-design/grafana:latest"]
 }

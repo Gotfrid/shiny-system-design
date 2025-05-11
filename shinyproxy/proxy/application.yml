@@ -33,6 +33,7 @@ proxy:
       container-image: shiny-system-design/telemetry_dash:latest
       container-network-connections: [ ssd-network ]
   usage-stats-url: micrometer
+  usage-stats-micrometer-prefix: shinyproxy
 
 management:
   prometheus:
