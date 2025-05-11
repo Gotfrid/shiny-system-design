@@ -9,8 +9,8 @@ services:
     networks:
       - ssd-network
     volumes:
-      - ./ldap_server/data/directories:/var/lib/ldap
-      - ./ldap_server/data/configs:/etc/ldap/slapd.d
+      - ./ldap_server/data/var/lib/ldap:/var/lib/ldap
+      - ./ldap_server/data/etc/ldap/slapd.d:/etc/ldap/slapd.d
     healthcheck:
       test: ["CMD", "cat", "/run/slapd/slapd.pid"]
       interval: 15s
