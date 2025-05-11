@@ -12,42 +12,15 @@ box::use(
   dplyr[`%>%`],
 )
 
-STORAGE_METHODS <- list(
-  sqlite = DataStorageSQLite,
-  logfile = DataStorageLogFile,
-  .default = DataStorageSQLite
-)
-
-#' Get storage
-#' @param driver string with method of storage see shiny.telemtry::DataStorage
-#'
-#' @examples
-#' get_storage("sqlite")
-get_storage <- function(driver) {
-  # This is used exclusively for testing purposes
-  if (is.null(driver)) {
-    return(STORAGE_METHODS$.default)
-  }
-
-  if (is.null(STORAGE_METHODS[[driver]])) {
-    log_warn("Method '{driver}' is not supported, using default")
-    return(STORAGE_METHODS$.default)
-  }
-
-  STORAGE_METHODS[[driver]]
-}
-
 #
 setup_storage <- function() {
-
-  storage_config <- config$get("storage_method")
-
-  data_storage <- do.call(
-    get_storage(storage_config$driver)$new,
-    storage_config[[storage_config$driver]]$params
+  DataStorageLogFile$new(
+    log_file_path = normalizePath(file.path(
+      getOption('box.path'),
+      "logs",
+      "user_stats.txt"
+    ))
   )
-
-  data_storage
 }
 
 #
