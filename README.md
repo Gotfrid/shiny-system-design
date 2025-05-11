@@ -40,3 +40,8 @@ To setup OpenLDAP via the admin UI:
 ## Monitoring
 
 ### Telemetry
+
+### Metrics
+
+Configure grafana to properly display metrics.
+Configure grafana to automatically load JSON config at build time.
