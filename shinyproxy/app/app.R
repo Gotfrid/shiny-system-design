@@ -29,8 +29,8 @@ telemetry <- Telemetry$new(
 ui <- function(request) {
   page_sidebar(
     sidebar = sidebar(
-      varSelectInput("xvar", "X variable", df_num, selected = "Bill Length (mm)"),
-      varSelectInput("yvar", "Y variable", df_num, selected = "Bill Depth (mm)"),
+      selectInput("xvar", "X variable", names(df_num), selected = "Bill Length (mm)"),
+      selectInput("yvar", "Y variable", names(df_num), selected = "Bill Depth (mm)"),
       checkboxGroupInput(
         "species", "Filter by species",
         choices = unique(df$Species), 
@@ -55,7 +55,7 @@ server <- function(input, output, session) {
   })
 
   output$scatter <- renderPlot({
-    p <- ggplot(subsetted(), aes(!!input$xvar, !!input$yvar)) + list(
+    p <- ggplot(subsetted(), aes(x = get(input$xvar), y = get(input$yvar))) + list(
       theme(legend.position = "bottom"),
       if (input$by_species) aes(color = Species),
       geom_point(),
