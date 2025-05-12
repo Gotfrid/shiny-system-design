@@ -34,6 +34,8 @@ proxy:
       container-network-connections: [ ssd-network ]
   usage-stats-url: micrometer
   usage-stats-micrometer-prefix: shinyproxy
+  log-as-json: true
+  container-log-path: /var/log/shinyproxy/container-logs
 
 management:
   prometheus:
@@ -43,4 +45,4 @@ management:
 
 logging:
   file:
-    name: shinyproxy.log
+    path: /var/log/shinyproxy/proxy-logs

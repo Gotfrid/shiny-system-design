@@ -8,6 +8,8 @@ group "default" {
     "telemetry_dash",
     "prometheus",
     "graphana",
+    "loki",
+    "promtail",
   ]
 }
 
@@ -87,4 +89,18 @@ target "graphana" {
   dockerfile = "Dockerfile"
   platforms = [ "linux/amd64" ]
   tags = ["shiny-system-design/grafana:latest"]
+}
+
+target "loki" {
+  context = "./monitoring/loki/"
+  dockerfile = "Dockerfile"
+  platforms = [ "linux/amd64" ]
+  tags = ["shiny-system-design/loki:latest"]
+}
+
+target "promtail" {
+  context = "./monitoring/promtail/"
+  dockerfile = "Dockerfile"
+  platforms = [ "linux/amd64" ]
+  tags = ["shiny-system-design/promtail:latest"]
 }

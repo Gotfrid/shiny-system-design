@@ -26,3 +26,23 @@ services:
       - 3000:3000
     networks:
       - ssd-network
+  loki:
+    container_name: loki
+    image: shiny-system-design/loki:latest
+    pull_policy: never
+    restart: unless-stopped
+    command: -config.file=/etc/loki/loki-config.yml
+    ports:
+      - 3100:3100
+    networks:
+      - ssd-network
+  promtail:
+    container_name: promtail
+    image: shiny-system-design/promtail:latest
+    pull_policy: never
+    restart: unless-stopped
+    command: -config.file=/etc/promtail/promtail-config.yml
+    ports:
+      - 9080:9080
+    networks:
+      - ssd-network
