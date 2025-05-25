@@ -14,17 +14,31 @@ df <- readr::read_csv(penguins_csv)
 # Find subset of columns that are suitable for scatter plot
 df_num <- df |> select(where(is.numeric), -Year)
 
-telemetry <- Telemetry$new(
-  app_name = "penguins_explorer",
-  data_storage = DataStoragePlumber$new(
-    hostname = "telemetry_api",
-    port = 8087,
-    protocol = "http",
-    path = NULL,
-    secret = NULL,
-    authorization = NULL
-  )
+telemetry <- tryCatch(
+  expr= {
+    t <- Telemetry$new(
+      app_name = "penguins_explorer",
+      data_storage = DataStoragePlumber$new(
+        hostname = "telemetry_api",
+        port = 8087,
+        protocol = "http",
+        path = NULL,
+        secret = NULL,
+        authorization = NULL
+      )
+    )
+    t$log_custom_event("Startup test")
+    t
+  },
+  error = function(e) {
+    if (!inherits(e, "httr2_error")) {
+      stop(e)
+    }
+    warning(e)
+    list(start_session = function(...) NULL)
+  }
 )
+
 
 ui <- function(request) {
   page_sidebar(
