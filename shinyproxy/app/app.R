@@ -5,6 +5,7 @@ library(bslib)
 library(dplyr)
 library(ggExtra)
 library(ggplot2)
+library(mirai)
 library(shiny.telemetry)
 library(shiny)
 
@@ -15,7 +16,7 @@ df <- readr::read_csv(penguins_csv)
 df_num <- df |> select(where(is.numeric), -Year)
 
 telemetry <- tryCatch(
-  expr= {
+  expr = {
     t <- Telemetry$new(
       app_name = "penguins_explorer",
       data_storage = DataStoragePlumber$new(
@@ -54,6 +55,7 @@ ui <- function(request) {
       checkboxInput("by_species", "Show species", TRUE),
       checkboxInput("show_margins", "Show marginal plots", TRUE),
       checkboxInput("smooth", "Add smoother"),
+      input_task_button("sklearn_predict", "SKLearn Classification")
     ),
     use_telemetry(),
     plotOutput("scatter")
@@ -63,9 +65,31 @@ ui <- function(request) {
 server <- function(input, output, session) {
   telemetry$start_session(track_values = TRUE)
 
+  sklearn_task <- ExtendedTask$new(function(x, y) {
+    mirai({
+      req <- httr2::request("http://host.docker.internal:8000/predict") |>
+        httr2::req_method("POST") |>
+        httr2::req_body_json(list(x = x, y = y))
+      res <- httr2::req_perform(req)
+      res |>
+        httr2::resp_body_json()
+    }, x = x, y = y)
+  }) |>
+    bind_task_button("sklearn_predict")
+
   subsetted <- reactive({
     req(input$species)
     df |> filter(Species %in% input$species)
+  })
+
+  observeEvent(input$sklearn_predict, {
+    req(subsetted())
+    data <- subsetted()
+    sklearn_task$invoke(x = data[, c(3:5)], y = data[, 1])
+  })
+
+  observeEvent(sklearn_task$result(), {=
+    print(sklearn_task$result())
   })
 
   output$scatter <- renderPlot({
@@ -85,5 +109,10 @@ server <- function(input, output, session) {
     p
   }, res = 100)
 }
+
+mirai::daemons(1)
+
+# automatically shutdown daemons when app exits
+onStop(function() mirai::daemons(0))
 
 shinyApp(ui, server)
