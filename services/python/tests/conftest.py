@@ -16,4 +16,4 @@ def sample_x():
 
 @pytest.fixture
 def sample_y():
-    return [0, 1, 2, 3, 4]
+    return ["a", "b", "b", "b", "a"]
