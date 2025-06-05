@@ -2,6 +2,7 @@ from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 
 from logic.predict import predict
+from app.logger import log
 
 
 class PredictionInput(BaseModel):
@@ -17,5 +18,5 @@ def get_prediction(body: PredictionInput):
     try:
         return predict(body.x, body.y)
     except Exception as e:
-        print(e)
+        log.exception(e)
         raise HTTPException(500, "Failed to run prediction")
