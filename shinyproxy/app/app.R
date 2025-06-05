@@ -67,7 +67,7 @@ server <- function(input, output, session) {
 
   sklearn_task <- ExtendedTask$new(function(x, y) {
     mirai({
-      req <- httr2::request("http://host.docker.internal:8000/predict") |>
+      req <- httr2::request("http://class_service:8000/predict") |>
         httr2::req_method("POST") |>
         httr2::req_body_json(list(x = x, y = y))
       res <- httr2::req_perform(req)
@@ -88,7 +88,7 @@ server <- function(input, output, session) {
     sklearn_task$invoke(x = data[, c(3:5)], y = data[, 1])
   })
 
-  observeEvent(sklearn_task$result(), {=
+  observeEvent(sklearn_task$result(), {
     print(sklearn_task$result())
   })
 
