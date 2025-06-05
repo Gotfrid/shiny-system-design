@@ -36,6 +36,11 @@ services:
       file: ./monitoring/compose.yml
       service: promtail
 
+  class_service:
+    extends:
+      file: ./services/compose.yml
+      service: class_service
+
 networks:
   ssd-network:
     name: ssd-network

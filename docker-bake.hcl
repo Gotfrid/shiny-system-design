@@ -10,6 +10,7 @@ group "default" {
     "graphana",
     "loki",
     "promtail",
+    "class_service",
   ]
 }
 
@@ -103,4 +104,11 @@ target "promtail" {
   dockerfile = "Dockerfile"
   platforms = [ "linux/amd64" ]
   tags = ["shiny-system-design/promtail:latest"]
+}
+
+target "class_service" {
+  context = "./services/classification/"
+  dockerfile = "Dockerfile"
+  platforms = [ "linux/amd64" ]
+  tags = [ "shiny-system-design/class_service:latest" ]
 }
