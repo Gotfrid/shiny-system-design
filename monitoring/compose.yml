@@ -1,13 +1,4 @@
 services:
-  telemetry_api:
-    container_name: telemetry_api
-    image: shiny-system-design/telemetry_api:latest
-    pull_policy: never
-    restart: always
-    volumes:
-      - ./telemetry/logs:/app/logs
-    networks:
-      - ssd-network
   grafana:
     container_name: grafana
     image: shiny-system-design/grafana:latest
