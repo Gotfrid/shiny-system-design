@@ -14,6 +14,10 @@ services:
     depends_on:
       ldap_server:
         condition: service_healthy
+  db_monitoring:
+    extends:
+      file: ./monitoring/compose.yml
+      service: db_monitoring
   grafana:
     attach: false
     extends:
