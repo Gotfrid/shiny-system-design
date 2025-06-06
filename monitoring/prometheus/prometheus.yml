@@ -1,8 +1,0 @@
-scrape_configs:
-  - job_name: 'shinyproxy'
-    metrics_path: '/actuator/prometheus'
-    static_configs:
-      - targets: [ 'shinyproxy:9090' ]
-        labels:
-          namespace: local
-          shinyproxy_realm: local

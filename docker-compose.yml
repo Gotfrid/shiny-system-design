@@ -18,24 +18,11 @@ services:
     extends:
       file: ./monitoring/compose.yml
       service: telemetry_api
-  prometheus:
-    extends:
-      file: ./monitoring/compose.yml
-      service: prometheus
   grafana:
     attach: false
     extends:
       file: ./monitoring/compose.yml
       service: grafana
-  loki:
-    extends:
-      file: ./monitoring/compose.yml
-      service: loki
-  promtail:
-    extends:
-      file: ./monitoring/compose.yml
-      service: promtail
-
   class_service:
     extends:
       file: ./services/compose.yml

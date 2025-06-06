@@ -6,10 +6,7 @@ group "default" {
     "shinyapp",
     "telemetry_api",
     "telemetry_dash",
-    "prometheus",
     "graphana",
-    "loki",
-    "promtail",
     "class_service",
   ]
 }
@@ -78,32 +75,11 @@ target "telemetry_dash" {
   }
 }
 
-target "prometheus" {
-  context = "./monitoring/prometheus/"
-  dockerfile = "Dockerfile"
-  platforms = [ "linux/amd64" ]
-  tags = ["shiny-system-design/prometheus:latest"]
-}
-
 target "graphana" {
   context = "./monitoring/grafana/"
   dockerfile = "Dockerfile"
   platforms = [ "linux/amd64" ]
   tags = ["shiny-system-design/grafana:latest"]
-}
-
-target "loki" {
-  context = "./monitoring/loki/"
-  dockerfile = "Dockerfile"
-  platforms = [ "linux/amd64" ]
-  tags = ["shiny-system-design/loki:latest"]
-}
-
-target "promtail" {
-  context = "./monitoring/promtail/"
-  dockerfile = "Dockerfile"
-  platforms = [ "linux/amd64" ]
-  tags = ["shiny-system-design/promtail:latest"]
 }
 
 target "class_service" {
