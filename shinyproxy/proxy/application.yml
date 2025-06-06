@@ -25,13 +25,6 @@ proxy:
       container-cmd: [ "R", "-e", "shiny::runApp(host = '0.0.0.0', port = 3838L)" ]
       container-image: shiny-system-design/shinyapp:latest
       container-network-connections: [ ssd-network ]
-    - id: telemetry
-      display-name: Telemetry Dashboard
-      description: User statistics, such as logins, sessions, in-app actions.
-      access-groups: [ admins ]
-      container-cmd: [ "R", "-e", "shiny::runApp(host = '0.0.0.0', port = 3838L)" ]
-      container-image: shiny-system-design/telemetry_dash:latest
-      container-network-connections: [ ssd-network ]
   usage-stats-url: micrometer
   usage-stats-micrometer-prefix: shinyproxy
   log-as-json: true

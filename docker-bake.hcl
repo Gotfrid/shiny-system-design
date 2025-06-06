@@ -4,7 +4,6 @@ group "default" {
     "ldap_admin",
     "shinyproxy",
     "shinyapp",
-    "telemetry_dash",
     "graphana",
     "class_service",
   ]
@@ -47,17 +46,6 @@ target "shinyapp" {
   context = "./shinyproxy/app"
   platforms = ["linux/amd64"]
   tags = ["shiny-system-design/shinyapp:latest"]
-  args = {
-    R_VERSION = "4.5.0"
-  }
-}
-
-target "telemetry_dash" {
-  # Make sure to use non-arm arch to install binary packages from P3M
-  dockerfile = "Dockerfile"
-  context = "./shinyproxy/analytics"
-  platforms = [ "linux/amd64" ]
-  tags = ["shiny-system-design/telemetry_dash:latest"]
   args = {
     R_VERSION = "4.5.0"
   }
