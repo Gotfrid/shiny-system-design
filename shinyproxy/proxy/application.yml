@@ -28,12 +28,6 @@ proxy:
   usage-stats-url: jdbc:postgresql://db_monitoring:5432/postgres?user=postgres&password=postgres&ssl=false
   container-log-path: /var/log/shinyproxy/container-logs
 
-management:
-  prometheus:
-    metrics:
-      export:
-        enabled: true
-
 logging:
   file:
     path: /var/log/shinyproxy/proxy-logs
