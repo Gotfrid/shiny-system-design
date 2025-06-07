@@ -8,6 +8,7 @@ library(ggplot2)
 library(mirai)
 library(shiny.telemetry)
 library(shiny)
+library(RPostgreSQL)
 
 penguins_csv <- "./datasets/penguins.csv"
 
@@ -19,13 +20,13 @@ telemetry <- tryCatch(
   expr = {
     t <- Telemetry$new(
       app_name = "penguins_explorer",
-      data_storage = DataStoragePlumber$new(
-        hostname = "telemetry_api",
-        port = 8087,
-        protocol = "http",
-        path = NULL,
-        secret = NULL,
-        authorization = NULL
+      data_storage = DataStoragePostgreSQL$new(
+        username = "postgres",
+        password = "postgres",
+        hostname = "db_monitoring",
+        port = 5432,
+        dbname = "postgres",
+        driver = "RPostgreSQL"
       )
     )
     t$log_custom_event("Startup test")
