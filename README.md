@@ -8,8 +8,7 @@ System design for Shiny developers based around Shinyproxy deployment.
 - Domain boundaries
   - Authentication
   - Shinyproxy
-  - Telemetry
-  - Metrics
+  - Monitoring
   - Services
 
 Every "domain" is developed in its own folder, and has its own Docker Compose Stack
@@ -39,9 +38,38 @@ To setup OpenLDAP via the admin UI:
 
 ## Monitoring
 
+Monitoring domain consists of two "services": PostgreSQL database to
+store metrics and logs, and Grafana to visualize them.
+
+Shinyproxy is configured to send usage statistics to the PostgreSQL DB,
+and the Shiny app is instrumented with shiny.telemetry, which also
+sends its logs to the PostgreSQL DB.
+
 ### Telemetry
 
 ### Metrics
 
 Configure grafana to properly display metrics.
 Configure grafana to automatically load JSON config at build time.
+
+#### Example queries
+
+Table of telemetry events
+
+```sql
+with inputs as (
+  select
+    details :: json -> 'id' ->> 0 as input_id,
+    details :: json -> 'value' ->> 0 as input_value
+  from event_log
+  where
+    1 = 1
+    and details :: json -> 'id' ->> 0 is not null
+    and "time" BETWEEN $__timeFrom() and $__timeTo()
+)
+
+select input_id, input_value, count(*) as n
+from inputs
+group by input_id, input_value
+order by n desc
+```
