@@ -1,13 +1,26 @@
 group "default" {
   targets = [
-    "ldap_server",
-    "ldap_admin",
+    "authentication",
     "shinyproxy",
-    "shinyapp",
-    "database",
-    "grafana",
-    "class_service",
+    "monitoring",
+    "services",
   ]
+}
+
+group "authentication" {
+  targets = [ "ldap_server", "ldap_admin" ]
+}
+
+group "shinyproxy" {
+  targets = [ "proxy", "app" ]
+}
+
+group "monitoring" {
+  targets = [ "grafana", "database" ]
+}
+
+group "services" {
+  targets = [ "class_service" ]
 }
 
 target "ldap_server" {
@@ -30,7 +43,7 @@ target "ldap_admin" {
   tags = ["shiny-system-design/ldap_admin:latest"]
 }
 
-target "shinyproxy" {
+target "proxy" {
   dockerfile = "Dockerfile"
   context = "./shinyproxy/proxy"
   platforms = [ "linux/amd64" ]
@@ -41,7 +54,7 @@ target "shinyproxy" {
   tags = ["shiny-system-design/shinyproxy:latest"]
 }
 
-target "shinyapp" {
+target "app" {
   # Make sure to use non-arm arch to install binary packages from P3M
   dockerfile = "Dockerfile"
   context = "./shinyproxy/app"
