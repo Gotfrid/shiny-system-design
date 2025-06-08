@@ -4,7 +4,7 @@ group "default" {
     "ldap_admin",
     "shinyproxy",
     "shinyapp",
-    "graphana",
+    "grafana",
     "class_service",
   ]
 }
@@ -51,7 +51,7 @@ target "shinyapp" {
   }
 }
 
-target "graphana" {
+target "grafana" {
   context = "./monitoring/grafana/"
   dockerfile = "Dockerfile"
   platforms = [ "linux/amd64" ]
