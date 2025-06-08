@@ -2,17 +2,45 @@
 
 System design for Shiny developers based around Shinyproxy deployment.
 
-## About the project structure
+## Architecture
 
-- Microservices
-- Domain boundaries
-  - Authentication
-  - Shinyproxy
-  - Monitoring
-  - Services
+This project is built around the idea of a domain oriented microservices architecture.
 
-Every "domain" is developed in its own folder, and has its own Docker Compose Stack
-defined in a corresponding *compose.yml* file.
+![architecture-diagram](./architecture.png)
+
+Every white box on the diagram represents a single docker container.
+
+The containers are grouped based on the domain boundaries:
+
+- Authentication
+- Shinyproxy
+- Monitoring
+- Cache
+- Services
+
+...thus comprising a total of 5 domains.
+
+>[!NOTE]
+>**Persistent Storage** is not an actual domain, but rather
+>a visual convenience to demonstrate the dependency on the
+> file system of a host server.
+
+There are 4 types of lines on the diagrams that represent different
+kinds of data flow:
+
+- *Thick lines* are the main inter-domain flow of logic
+- *Thin lines* inside the domain boundaries represent intra-domain communication
+- *Dotted lines* are reserved for telemetry and monitoring flows
+- *Dashed lines* represent file system dependency (docker volumes)
+
+## Development
+
+This project is developed as a big monorepo to avoid any induced complexity
+related to version control management (git).
+
+Every domain mentioned above is developed and maintained in its own folder,
+has its own Docker Compose Stack defined in a corresponding *compose* file,
+and has its own Build Group defined in the *docker-bake* file.
 
 ## Setup and configuration
 
