@@ -1,13 +1,14 @@
 services:
-  db_monitoring:
-    container_name: db_monitoring
-    image: postgres:17-bookworm
+  database:
+    container_name: database
+    image: shiny-system-design/database:latest
+    pull_policy: never
     restart: always
     user: postgres
     ports:
       - 5432:5432
     volumes:
-      - ./data:/var/lib/postgresql/data 
+      - ./database/data:/var/lib/postgresql/data 
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres

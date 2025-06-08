@@ -23,7 +23,7 @@ telemetry <- tryCatch(
       data_storage = DataStoragePostgreSQL$new(
         username = "postgres",
         password = "postgres",
-        hostname = "db_monitoring",
+        hostname = "database",
         port = 5432,
         dbname = "postgres",
         driver = "RPostgreSQL"

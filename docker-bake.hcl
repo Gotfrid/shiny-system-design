@@ -4,6 +4,7 @@ group "default" {
     "ldap_admin",
     "shinyproxy",
     "shinyapp",
+    "database",
     "grafana",
     "class_service",
   ]
@@ -49,6 +50,13 @@ target "shinyapp" {
   args = {
     R_VERSION = "4.5.0"
   }
+}
+
+target "database" {
+  context = "./monitoring/database/"
+  dockerfile = "Dockerfile"
+  platforms = [ "linux/amd64" ]
+  tags = ["shiny-system-design/database:latest"]
 }
 
 target "grafana" {
