@@ -28,8 +28,10 @@ def get_hello(ApiTarget: Annotated[str, Header()]):
     try:
         api_url = f"http://{ApiTarget}:8000/hello"
         response = requests.get(api_url)
+        data = response.json()
         if response.status_code != 200:
-            raise Exception()
-        return response.json()
-    except Exception:
+            raise Exception(data)
+        return data
+    except Exception as e:
+        log.error(e)
         raise HTTPException(400, f"Failed to dispatch request to {ApiTarget}")

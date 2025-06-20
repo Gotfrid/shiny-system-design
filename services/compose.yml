@@ -11,3 +11,9 @@ services:
     pull_policy: never
     networks:
       - ssd-network
+  oxygen:
+    container_name: oxygen
+    image: shiny-system-design/oxygen:latest
+    pull_policy: never
+    networks:
+      - ssd-network

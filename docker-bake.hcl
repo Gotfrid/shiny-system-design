@@ -20,7 +20,7 @@ group "monitoring" {
 }
 
 group "services" {
-  targets = [ "api_dispatcher", "fastapi" ]
+  targets = [ "api_dispatcher", "fastapi", "oxygen" ]
 }
 
 target "ldap_server" {
@@ -91,4 +91,11 @@ target "fastapi" {
   dockerfile = "Dockerfile"
   platforms = [ "linux/amd64" ]
   tags = [ "shiny-system-design/fastapi:latest" ]
+}
+
+target "oxygen" {
+  context = "./services/oxygen_api/"
+  dockerfile = "Dockerfile"
+  platforms = [ "linux/amd64" ]
+  tags = [ "shiny-system-design/oxygen:latest" ]
 }

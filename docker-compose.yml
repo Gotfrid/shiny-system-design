@@ -31,6 +31,10 @@ services:
     extends:
       file: ./services/compose.yml
       service: fastapi
+  oxygen:
+    extends:
+      file: ./services/compose.yml
+      service: oxygen
 
 networks:
   ssd-network:
