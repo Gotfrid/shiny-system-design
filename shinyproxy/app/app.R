@@ -1,31 +1,43 @@
-# Source code courtesy of Posit team
-# at https://shiny.posit.co/
-
 library(bslib)
-library(dplyr)
-library(ggExtra)
-library(ggplot2)
+library(httr2)
+library(languageserver)
 library(mirai)
+library(RPostgreSQL)
 library(shiny.telemetry)
 library(shiny)
-library(RPostgreSQL)
 
-penguins_csv <- "./datasets/penguins.csv"
+api_frameworks <- c(
+  "fastapi",
+  "oxygen",
+  "plumber"
+)
 
-df <- readr::read_csv(penguins_csv)
-# Find subset of columns that are suitable for scatter plot
-df_num <- df |> select(where(is.numeric), -Year)
+pg_usr <- Sys.getenv("PG_USR", "postgres")
+pg_pwd <- Sys.getenv("PG_PWD", "postgres")
+pg_host <- Sys.getenv("PG_HOST", "database")
+pg_port <- as.numeric(Sys.getenv("PG_PORT", "5432"))
+pg_db <- Sys.getenv("PG_DB", "postgres")
 
-telemetry <- tryCatch(
+api_dispatcher_url <- Sys.getenv(
+  "API_DISPATCHER_URL",
+  "http://api_dispatcher:8000"
+)
+api_dispatcher_msg_path <- Sys.getenv(
+  "API_DISPATCHER_MSG_PATH",
+  "hello"
+)
+
+mock_telemetry_client <- list(start_session = function(...) NULL)
+telemetry_client <- tryCatch(
   expr = {
     t <- Telemetry$new(
-      app_name = "penguins_explorer",
+      app_name = "shiny_system_design__main_app",
       data_storage = DataStoragePostgreSQL$new(
-        username = "postgres",
-        password = "postgres",
-        hostname = "database",
-        port = 5432,
-        dbname = "postgres",
+        username = pg_usr,
+        password = pg_pwd,
+        hostname = pg_host,
+        port = pg_port,
+        dbname = pg_db,
         driver = "RPostgreSQL"
       )
     )
@@ -33,87 +45,70 @@ telemetry <- tryCatch(
     t
   },
   error = function(e) {
-    if (!inherits(e, "httr2_error")) {
-      stop(e)
+    if (grepl("RPosgreSQL error: could not connect", as.character(e))) {
+      warning("Telemetry cannot be collected:\n", e, call. = FALSE)
+      return(mock_telemetry_client)
     }
-    warning(e)
-    list(start_session = function(...) NULL)
+    stop(e)
   }
 )
-
 
 ui <- function(request) {
   page_sidebar(
     sidebar = sidebar(
-      selectInput("xvar", "X variable", names(df_num), selected = "Bill Length (mm)"),
-      selectInput("yvar", "Y variable", names(df_num), selected = "Bill Depth (mm)"),
-      checkboxGroupInput(
-        "species", "Filter by species",
-        choices = unique(df$Species), 
-        selected = unique(df$Species)
-      ),
-      hr(), # Add a horizontal rule
-      checkboxInput("by_species", "Show species", TRUE),
-      checkboxInput("show_margins", "Show marginal plots", TRUE),
-      checkboxInput("smooth", "Add smoother"),
-      input_task_button("sklearn_predict", "SKLearn Classification")
+      selectizeInput("api_target", "API Target", api_frameworks),
+      input_task_button("make_request", "Make Request")
     ),
     use_telemetry(),
-    plotOutput("scatter")
+    verbatimTextOutput("log"),
   )
 }
 
 server <- function(input, output, session) {
-  telemetry$start_session(track_values = TRUE)
+  telemetry_client$start_session(track_values = TRUE)
 
-  sklearn_task <- ExtendedTask$new(function(x, y) {
-    mirai({
-      req <- httr2::request("http://class_service:8000/predict") |>
-        httr2::req_method("POST") |>
-        httr2::req_body_json(list(x = x, y = y))
-      res <- httr2::req_perform(req)
-      res |>
-        httr2::resp_body_json()
-    }, x = x, y = y)
-  }) |>
-    bind_task_button("sklearn_predict")
+  responses_log <- reactiveVal(paste0(
+    "This is the beginning of the log.\n",
+    "Start making requests to see the responses.\n"
+  ))
 
-  subsetted <- reactive({
-    req(input$species)
-    df |> filter(Species %in% input$species)
-  })
-
-  observeEvent(input$sklearn_predict, {
-    req(subsetted())
-    data <- subsetted()
-    sklearn_task$invoke(x = data[, c(3:5)], y = data[, 1])
-  })
-
-  observeEvent(sklearn_task$result(), {
-    print(sklearn_task$result())
-  })
-
-  output$scatter <- renderPlot({
-    p <- ggplot(subsetted(), aes(x = get(input$xvar), y = get(input$yvar))) + list(
-      theme(legend.position = "bottom"),
-      if (input$by_species) aes(color = Species),
-      geom_point(),
-      if (input$smooth) geom_smooth()
+  api_task <- ExtendedTask$new(function(api_target, url, path) {
+    mirai(
+      {
+        req <- httr2::request(url) |>
+          httr2::req_url_path(path) |>
+          httr2::req_method("GET") |>
+          httr2::req_headers(ApiTarget = api_target)
+        res <- try(httr2::req_perform(req))
+        if (inherits(res, "try-error")) {
+          return(
+            paste(Sys.time(), api_target, "FAIL:", attr(res, "condition"))
+          )
+        }
+        data <- httr2::resp_body_json(res)
+        paste(Sys.time(), api_target, "OK:", as.character(data))
+      },
+      api_target = api_target,
+      url = api_dispatcher_url,
+      path = api_dispatcher_msg_path
     )
+  }) |>
+    bind_task_button("make_request")
 
-    if (input$show_margins) {
-      margin_type <- if (input$by_species) "density" else "histogram"
-      p <- ggExtra::ggMarginal(p, type = margin_type, margins = "both",
-        size = 8, groupColour = input$by_species, groupFill = input$by_species)
-    }
+  observeEvent(input$make_request, {
+    new_line <- paste(Sys.time(), input$api_target, "BEGIN", "\n")
+    paste0(responses_log(), new_line) |> responses_log()
+    api_task$invoke(api_target = input$api_target)
+  })
 
-    p
-  }, res = 100)
+  observeEvent(api_task$result(), {
+    new_line <- paste0(api_task$result(), "\n")
+    paste0(responses_log(), new_line) |> responses_log()
+  })
+
+  output$log <- renderText(responses_log())
 }
 
 mirai::daemons(1)
-
-# automatically shutdown daemons when app exits
 onStop(function() mirai::daemons(0))
-
 shinyApp(ui, server)
