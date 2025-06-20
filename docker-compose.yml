@@ -47,6 +47,10 @@ services:
     extends:
       file: ./services/compose.yml
       service: express
+  spring:
+    extends:
+      file: ./services/compose.yml
+      service: spring
 
 networks:
   ssd-network:

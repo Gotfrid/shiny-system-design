@@ -20,7 +20,7 @@ group "monitoring" {
 }
 
 group "services" {
-  targets = [ "api_dispatcher", "fastapi", "oxygen", "plumber", "gin", "express" ]
+  targets = [ "api_dispatcher", "fastapi", "oxygen", "plumber", "gin", "express", "spring" ]
 }
 
 target "ldap_server" {
@@ -119,4 +119,11 @@ target "express" {
   dockerfile = "Dockerfile"
   platforms = [ "linux/amd64" ]
   tags = [ "shiny-system-design/express:latest" ]
+}
+
+target "spring" {
+  context = "./services/spring_api/"
+  dockerfile = "Dockerfile"
+  platforms = [ "linux/amd64" ]
+  tags = [ "shiny-system-design/spring:latest" ]
 }

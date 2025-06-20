@@ -35,3 +35,9 @@ services:
     pull_policy: never
     networks:
       - ssd-network
+  spring:
+    container_name: spring
+    image: shiny-system-design/spring:latest
+    pull_policy: never
+    networks:
+      - ssd-network
