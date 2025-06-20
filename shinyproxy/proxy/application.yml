@@ -18,7 +18,7 @@ proxy:
     internal-networking: true
     image-pull-policy: Never
   specs:
-    - id: main_app
+    - id: api_explorer
       display-name: API Explorer
       description: Simple shiny app demonstrating usage of ExtendedTask for various API requests.
       access-groups: [ admins, users ]

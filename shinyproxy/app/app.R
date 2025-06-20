@@ -9,7 +9,10 @@ library(shiny)
 api_frameworks <- c(
   "fastapi",
   "oxygen",
-  "plumber"
+  "plumber",
+  "gin",
+  "express",
+  "spring"
 )
 
 pg_usr <- Sys.getenv("PG_USR", "postgres")

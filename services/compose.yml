@@ -23,3 +23,9 @@ services:
     pull_policy: never
     networks:
       - ssd-network
+  gin:
+    container_name: gin
+    image: shiny-system-design/gin:latest
+    pull_policy: never
+    networks:
+      - ssd-network
