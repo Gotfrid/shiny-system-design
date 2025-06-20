@@ -17,3 +17,9 @@ services:
     pull_policy: never
     networks:
       - ssd-network
+  plumber:
+    container_name: plumber
+    image: shiny-system-design/plumber:latest
+    pull_policy: never
+    networks:
+      - ssd-network
