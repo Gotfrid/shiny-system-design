@@ -6,7 +6,7 @@ readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
     "fastapi[standard]>=0.115.12",
-    "scikit-learn>=1.6.1",
+    "requests>=2.32.4",
 ]
 
 [dependency-groups]

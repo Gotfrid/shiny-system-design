@@ -23,10 +23,10 @@ services:
     extends:
       file: ./monitoring/compose.yml
       service: grafana
-  class_service:
+  api_dispatcher:
     extends:
       file: ./services/compose.yml
-      service: class_service
+      service: api_dispatcher
 
 networks:
   ssd-network:

@@ -1,7 +1,7 @@
 services:
-  class_service:
-    container_name: class_service
-    image: shiny-system-design/class_service:latest
+  api_dispatcher:
+    container_name: api_dispatcher
+    image: shiny-system-design/api_dispatcher:latest
     pull_policy: never
     networks:
       - ssd-network

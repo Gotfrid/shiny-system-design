@@ -20,7 +20,7 @@ group "monitoring" {
 }
 
 group "services" {
-  targets = [ "class_service" ]
+  targets = [ "api_dispatcher" ]
 }
 
 target "ldap_server" {
@@ -79,9 +79,9 @@ target "grafana" {
   tags = ["shiny-system-design/grafana:latest"]
 }
 
-target "class_service" {
-  context = "./services/classification/"
+target "api_dispatcher" {
+  context = "./services/api_dispatcher/"
   dockerfile = "Dockerfile"
   platforms = [ "linux/amd64" ]
-  tags = [ "shiny-system-design/class_service:latest" ]
+  tags = [ "shiny-system-design/api_dispatcher:latest" ]
 }
