@@ -27,6 +27,10 @@ services:
     extends:
       file: ./services/compose.yml
       service: api_dispatcher
+  fastapi:
+    extends:
+      file: ./services/compose.yml
+      service: fastapi
 
 networks:
   ssd-network:

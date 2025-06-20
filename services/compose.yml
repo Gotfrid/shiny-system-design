@@ -5,4 +5,9 @@ services:
     pull_policy: never
     networks:
       - ssd-network
-    
+  fastapi:
+    container_name: fastapi
+    image: shiny-system-design/fastapi:latest
+    pull_policy: never
+    networks:
+      - ssd-network
