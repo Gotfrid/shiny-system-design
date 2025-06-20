@@ -18,9 +18,9 @@ proxy:
     internal-networking: true
     image-pull-policy: Never
   specs:
-    - id: penguins_explorer
-      display-name: Penguins Explorer
-      description: Simple visualizaion of the penguins dataset.
+    - id: main_app
+      display-name: API Explorer
+      description: Simple shiny app demonstrating usage of ExtendedTask for various API requests.
       access-groups: [ admins, users ]
       container-cmd: [ "R", "-e", "shiny::runApp(host = '0.0.0.0', port = 3838L)" ]
       container-image: shiny-system-design/shinyapp:latest
