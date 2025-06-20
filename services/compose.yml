@@ -29,3 +29,9 @@ services:
     pull_policy: never
     networks:
       - ssd-network
+  express:
+    container_name: express
+    image: shiny-system-design/express:latest
+    pull_policy: never
+    networks:
+      - ssd-network
