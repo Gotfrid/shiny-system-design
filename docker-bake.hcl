@@ -4,6 +4,7 @@ group "default" {
     "shinyproxy",
     "monitoring",
     "services",
+    "cache",
   ]
 }
 
@@ -21,6 +22,10 @@ group "monitoring" {
 
 group "services" {
   targets = [ "api_dispatcher", "fastapi", "oxygen", "plumber", "gin", "express", "spring" ]
+}
+
+group "cache" {
+  targets = [ "redis" ]
 }
 
 target "ldap_server" {
@@ -126,4 +131,11 @@ target "spring" {
   dockerfile = "Dockerfile"
   platforms = [ "linux/amd64" ]
   tags = [ "shiny-system-design/spring:latest" ]
+}
+
+target "redis" {
+  context = "./cache/redis/"
+  dockerfile = "Dockerfile"
+  platforms = [ "linux/amd64" ]
+  tags = [ "shiny-system-design/redis:latest" ]
 }

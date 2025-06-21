@@ -1,0 +1,8 @@
+services:
+  redis:
+    container_name: redis
+    image: shiny-system-design/redis:latest
+    pull_policy: never
+    restart: always
+    networks:
+      - ssd-network
