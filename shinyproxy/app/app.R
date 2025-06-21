@@ -6,6 +6,9 @@ library(RPostgreSQL)
 library(shiny.telemetry)
 library(shiny)
 
+redis_client <- get_redis_client()
+telemetry_client <- get_telemetry_client()
+
 ui <- function(request) {
   page_sidebar(
     sidebar = sidebar(

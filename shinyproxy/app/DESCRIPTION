@@ -1,3 +1,3 @@
 Package: This is not a real R package.
-Info: DESCRIPTION file serves to trick the {languageserver} package.
-MoreInfo: To work properly, this file still has to look like a DCF file ;)
+Title: DESCRIPTION file serves to trick the {languageserver} package.
+Description: To work properly, this file still has to be a valid DCF file.
