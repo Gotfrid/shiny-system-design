@@ -10,7 +10,6 @@ RUN apt update && apt install -y libhiredis-dev unixodbc libcurl4-openssl-dev li
 # Install R packages
 COPY ./renv/activate.R /app/renv/activate.R
 COPY .Rprofile renv.lock /app/
-RUN install2.r renv --error --skipinstalled
 RUN R -q -e "renv::restore(clean=TRUE)"
 
 COPY . .
