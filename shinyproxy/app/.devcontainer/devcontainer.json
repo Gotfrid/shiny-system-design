@@ -13,7 +13,7 @@
   "remoteEnv": {
     "RENV_CONFIG_PAK_ENABLED": "FALSE"
   },
-  "postCreateCommand": "apt update && apt install -y unixodbc libxml2-dev pandoc libcurl4-openssl-dev libicu-dev libsodium-dev libssl-dev cmake xz-utils libpq-dev; R -q -e 'renv::restore(clean=TRUE)'",
+  "postCreateCommand": "apt update && apt install -y libhiredis-dev unixodbc libxml2-dev pandoc libcurl4-openssl-dev libicu-dev libsodium-dev libssl-dev cmake xz-utils libpq-dev; R -q -e 'renv::restore(clean=TRUE)'",
   "customizations": {
     "vscode": {
       "extensions": [

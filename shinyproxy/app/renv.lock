@@ -2502,6 +2502,38 @@
       "Maintainer": "Hadley Wickham <hadley@rstudio.com>",
       "Repository": "RSPM"
     },
+    "redux": {
+      "Package": "redux",
+      "Version": "1.1.4",
+      "Source": "Repository",
+      "Title": "R Bindings to 'hiredis'",
+      "Authors@R": "c(person(\"Rich\", \"FitzJohn\", role = c(\"aut\", \"cre\"), email = \"rich.fitzjohn@gmail.com\"))",
+      "Description": "A 'hiredis' wrapper that includes support for transactions, pipelining, blocking subscription, serialisation of all keys and values, 'Redis' error handling with R errors. Includes an automatically generated 'R6' interface to the full 'hiredis' API.  Generated functions are faithful to the 'hiredis' documentation while attempting to match R's argument semantics.  Serialisation must be explicitly done by the user, but both binary and text-mode serialisation is supported.",
+      "SystemRequirements": "hiredis",
+      "License": "GPL-2",
+      "URL": "https://github.com/richfitz/redux",
+      "BugReports": "https://github.com/richfitz/redux/issues",
+      "Depends": [
+        "R (>= 3.2.0)"
+      ],
+      "Imports": [
+        "R6",
+        "storr (>= 1.1.1)"
+      ],
+      "Suggests": [
+        "knitr",
+        "rmarkdown",
+        "sys",
+        "testthat"
+      ],
+      "VignetteBuilder": "knitr",
+      "RoxygenNote": "7.1.2",
+      "Encoding": "UTF-8",
+      "NeedsCompilation": "yes",
+      "Author": "Rich FitzJohn [aut, cre]",
+      "Maintainer": "Rich FitzJohn <rich.fitzjohn@gmail.com>",
+      "Repository": "CRAN"
+    },
     "renv": {
       "Package": "renv",
       "Version": "1.1.4",
@@ -2916,6 +2948,44 @@
       "Encoding": "UTF-8",
       "NeedsCompilation": "yes",
       "Repository": "RSPM"
+    },
+    "storr": {
+      "Package": "storr",
+      "Version": "1.2.6",
+      "Source": "Repository",
+      "Title": "Simple Key Value Stores",
+      "Description": "Creates and manages simple key-value stores.  These can use a variety of approaches for storing the data.  This package implements the base methods and support for file system, in-memory and DBI-based database stores.",
+      "Depends": [
+        "R (>= 3.3.0)"
+      ],
+      "License": "MIT + file LICENSE",
+      "Authors@R": "c(person(\"Rich\", \"FitzJohn\", role = c(\"aut\", \"cre\"), email = \"rich.fitzjohn@gmail.com\"), person(c(\"William\", \"Michael\"), \"Landau\", email = \"will.landau@gmail.com\", role = \"ctb\", comment = c(ORCID = \"0000-0003-1878-3253\") ))",
+      "URL": "https://richfitz.github.io/storr/, https://github.com/richfitz/storr",
+      "BugReports": "https://github.com/richfitz/storr/issues",
+      "Imports": [
+        "R6 (>= 2.1.0)",
+        "digest"
+      ],
+      "Suggests": [
+        "DBI (>= 0.6)",
+        "RSQLite (>= 1.1-2)",
+        "RPostgres",
+        "knitr",
+        "mockr",
+        "parallel",
+        "progress",
+        "rbenchmark",
+        "rmarkdown",
+        "testthat (>= 3.0.0)"
+      ],
+      "VignetteBuilder": "knitr",
+      "RoxygenNote": "7.3.2",
+      "Encoding": "UTF-8",
+      "Language": "en-GB",
+      "NeedsCompilation": "yes",
+      "Author": "Rich FitzJohn [aut, cre], William Michael Landau [ctb] (<https://orcid.org/0000-0003-1878-3253>)",
+      "Maintainer": "Rich FitzJohn <rich.fitzjohn@gmail.com>",
+      "Repository": "CRAN"
     },
     "stringi": {
       "Package": "stringi",
