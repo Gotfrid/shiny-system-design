@@ -30,14 +30,14 @@ server <- function(input, output, session) {
   ))
 
   observeEvent(input$make_request, {
-    new_line <- paste(Sys.time(), input$api_target, "BEGIN", "\n")
+    new_line <- paste(get_datetime(), input$api_target, "BEGIN", "\n")
     paste0(responses_log(), new_line) |> responses_log()
     trigger_reactive(api_request_trigger)
     update_task_button("make_request", state = "busy")
   })
 
   observeEvent(api_request_trigger(), {
-    new_log_line <- make_request(api_target = input$api_target)
+    new_log_line <- make_request(input$api_target, redis_client)
     paste0(responses_log(), new_log_line) |> responses_log()
     update_task_button("make_request", state = "ready")
   })
