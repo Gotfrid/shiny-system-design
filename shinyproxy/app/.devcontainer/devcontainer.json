@@ -6,7 +6,10 @@
       "PLATFORM": "linux/amd64"
     }    
   },
-  "runArgs": ["--platform=linux/amd64"],
+  "runArgs": [
+    "--platform=linux/amd64",
+    "--network=ssd-network"
+  ],
   "features": {
     "ghcr.io/rocker-org/devcontainer-features/renv-cache:0": {}
   },
