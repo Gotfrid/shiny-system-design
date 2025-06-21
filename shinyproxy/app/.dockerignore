@@ -1,4 +1,5 @@
 *
+!R/
 !.Rprofile
 !app.R
 !renv/activate.R
