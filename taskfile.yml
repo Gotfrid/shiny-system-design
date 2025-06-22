@@ -12,16 +12,6 @@ tasks:
     deps:
       - shinyproxy_env_file_windows
       - shinyproxy_env_file_unix
-  
-  shinyproxy_env_file_windows:
-    internal: true
-    platforms: [windows]
-    cmd: Copy-Item "variables.env" -Destination "./shinyproxy/proxy/variables.env"
-
-  shinyproxy_env_file_unix:
-    internal: true
-    platforms: [darwin, linux]
-    cmd: cp variables.env ./shinyproxy/proxy/variables.env
 
   build:
     desc: Build all docker images from the bake file
@@ -31,21 +21,18 @@ tasks:
   start:
     desc: Start all compose services
     aliases: [up]
-    deps: [task: shinyproxy_env_file]
     env:
       COMPOSE_PROFILES: auth,shinyproxy,monitoring,services,cache
     cmd: docker-compose up {{.CLI_ARGS}}
 
   start-without-cache:
     desc: Start all compose profiles except for cache
-    deps: [task: shinyproxy_env_file]
     env:
       COMPOSE_PROFILES: auth,shinyproxy,monitoring,services
     cmd: docker-compose up
 
   start-without-services:
     desc: Start all compose profiles except for cache and services
-    deps: [task: shinyproxy_env_file]
     env:
       COMPOSE_PROFILES: auth,shinyproxy,monitoring
     cmd: docker-compose up
@@ -67,6 +54,31 @@ tasks:
 
   clean-volumes:
     desc: Delete all folders that are used to persist docker container data
+    deps: [clean-volumes-windows, clean-volumes-unix]
+
+  # --- Internal Commands ---
+
+  shinyproxy_env_file_windows:
+    internal: true
+    platforms: [windows]
+    cmd: Copy-Item "variables.env" -Destination "./shinyproxy/proxy/variables.env"
+
+  shinyproxy_env_file_unix:
+    internal: true
+    platforms: [darwin, linux]
+    cmd: cp variables.env ./shinyproxy/proxy/variables.env
+
+  clean-volumes-windows:
+    internal: true
+    platforms: [windows]
+    prompt: Do you really want to delete these folders?
+    cmds:
+      - Remove-Item -LiteralPath "authentication/ldap_server/data" -Force -Recurse
+      - Remove-Item -LiteralPath "monitoring/database/data" -Force -Recurse
+  
+  clean-volumes-unix:
+    internal: true
+    platforms: [darwin, linux]
     prompt: Do you really want to delete these folders?
     cmds:
       - rm -rf authentication/ldap_server/data
