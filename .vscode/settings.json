@@ -3,5 +3,8 @@
     "https://taskfile.dev/schema.json": [
       "**/taskfile.yml",
     ]
+  },
+  "files.associations": {
+    "*.env": "ini"
   }
 }

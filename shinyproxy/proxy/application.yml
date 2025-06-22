@@ -25,6 +25,7 @@ proxy:
       container-cmd: [ "R", "-e", "shiny::runApp(host = '0.0.0.0', port = 3838L)" ]
       container-image: shiny-system-design/shinyapp:latest
       container-network-connections: [ ssd-network ]
+      container-env-file: variables.env
   usage-stats-url: jdbc:postgresql://database:5432/postgres?user=postgres&password=postgres&ssl=false
   container-log-path: /var/log/shinyproxy/container-logs
 

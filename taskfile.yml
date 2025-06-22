@@ -8,39 +8,44 @@ tasks:
     silent: true
     cmd: task --list
 
-  touch_env_files:
+  shinyproxy_env_file:
+    deps:
+      - shinyproxy_env_file_windows
+      - shinyproxy_env_file_unix
+  
+  shinyproxy_env_file_windows:
     internal: true
-    silent: true
-    cmds:
-      - touch authentication/.env
-      - touch cache/.env
-      - touch monitoring/.env
-      - touch services/.env
-      - touch shinyproxy/.env
+    platforms: [windows]
+    cmd: Copy-Item "variables.env" -Destination "./shinyproxy/proxy/variables.env"
+
+  shinyproxy_env_file_unix:
+    internal: true
+    platforms: [darwin, linux]
+    cmd: cp variables.env ./shinyproxy/proxy/variables.env
 
   build:
     desc: Build all docker images from the bake file
-    deps: [task: touch_env_files]
+    deps: [task: shinyproxy_env_file]
     cmd: docker buildx bake
 
   start:
     desc: Start all compose services
     aliases: [up]
-    deps: [task: touch_env_files]
+    deps: [task: shinyproxy_env_file]
     env:
       COMPOSE_PROFILES: auth,shinyproxy,monitoring,services,cache
-    cmd: docker-compose up
+    cmd: docker-compose up {{.CLI_ARGS}}
 
   start-without-cache:
     desc: Start all compose profiles except for cache
-    deps: [task: touch_env_files]
+    deps: [task: shinyproxy_env_file]
     env:
       COMPOSE_PROFILES: auth,shinyproxy,monitoring,services
     cmd: docker-compose up
 
   start-without-services:
     desc: Start all compose profiles except for cache and services
-    deps: [task: touch_env_files]
+    deps: [task: shinyproxy_env_file]
     env:
       COMPOSE_PROFILES: auth,shinyproxy,monitoring
     cmd: docker-compose up

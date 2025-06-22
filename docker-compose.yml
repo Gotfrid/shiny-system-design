@@ -1,16 +1,19 @@
 services:
   ldap_server:
     profiles: [auth]
+    env_file: [variables.env]
     extends:
       file: ./authentication/compose.yml
       service: ldap_server
   ldap_admin:
     profiles: [auth]
+    env_file: [variables.env]
     extends:
       file: ./authentication/compose.yml
       service: ldap_admin
   shinyproxy:
     profiles: [shinyproxy]
+    env_file: [variables.env]
     extends:
       file: ./shinyproxy/compose.yml
       service: shinyproxy
@@ -19,17 +22,20 @@ services:
         condition: service_healthy
   database:
     profiles: [monitoring]
+    env_file: [variables.env]
     extends:
       file: ./monitoring/compose.yml
       service: database
   grafana:
     profiles: [monitoring]
+    env_file: [variables.env]
     attach: false
     extends:
       file: ./monitoring/compose.yml
       service: grafana
   api_dispatcher:
     profiles: [services]
+    env_file: [variables.env]
     extends:
       file: ./services/compose.yml
       service: api_dispatcher
@@ -65,6 +71,7 @@ services:
       service: spring
   redis:
     profiles: [cache]
+    env_file: [variables.env]
     extends:
       file: ./cache/compose.yml
       service: redis

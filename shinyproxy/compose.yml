@@ -4,15 +4,9 @@ services:
     image: shiny-system-design/shinyproxy:latest
     pull_policy: never
     restart: always
-    # user: root
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
     ports:
       - 8080:8080
-    logging:
-      driver: json-file
-      options:
-        max-size: 10m
-        max-file: 10
     networks:
       - ssd-network
