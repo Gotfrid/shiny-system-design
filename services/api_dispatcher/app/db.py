@@ -2,8 +2,8 @@ import os
 
 from sqlmodel import create_engine, SQLModel, Session
 
-DATABASE_URL = os.environ.get("DB_URL", "sqlite:///monitoring.sqlite")
-engine = create_engine(DATABASE_URL, echo=True)
+DB_URL = os.environ.get("DB_URL", "sqlite:///db.sqlite")
+engine = create_engine(DB_URL, echo=True)
 
 
 def init_db():

@@ -1,5 +1,7 @@
 FROM python:3.12-slim-bookworm
 
+ENV DB_URL="postgresql+psycopg2://postgres:postgres@database/postgres"
+
 COPY --from=ghcr.io/astral-sh/uv:0.7.10 /uv /uvx /bin/
 
 COPY . .
