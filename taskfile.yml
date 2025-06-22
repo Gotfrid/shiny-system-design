@@ -8,25 +8,61 @@ tasks:
     silent: true
     cmd: task --list
 
+  touch_env_files:
+    internal: true
+    silent: true
+    cmds:
+      - touch authentication/.env
+      - touch cache/.env
+      - touch monitoring/.env
+      - touch services/.env
+      - touch shinyproxy/.env
+
   build:
     desc: Build all docker images from the bake file
+    deps: [task: touch_env_files]
     cmd: docker buildx bake
 
   start:
     desc: Start all compose services
     aliases: [up]
+    deps: [task: touch_env_files]
     env:
       COMPOSE_PROFILES: auth,shinyproxy,monitoring,services,cache
     cmd: docker-compose up
 
   start-without-cache:
     desc: Start all compose profiles except for cache
+    deps: [task: touch_env_files]
     env:
       COMPOSE_PROFILES: auth,shinyproxy,monitoring,services
     cmd: docker-compose up
 
   start-without-services:
     desc: Start all compose profiles except for cache and services
+    deps: [task: touch_env_files]
     env:
       COMPOSE_PROFILES: auth,shinyproxy,monitoring
     cmd: docker-compose up
+
+  clean-docker:
+    desc: Delete all docker resources
+    prompt: This will delete absolutely all docker resources (container, images, volumes, builds). Do you want to proceed?
+    cmds:
+      - docker buildx du
+      - docker ps -qa || docker stop $(docker ps -qa)
+      - docker ps -qa || docker rm $(docker ps -qa) -f
+      - docker images -q || docker rmi $(docker images -q) -f
+      - docker volume ls -qf dangling=true || docker volume rm $(docker volume ls -qf dangling=true) -f
+      - docker system prune -fa
+      - docker volume prune -fa
+      - docker buildx prune -fa
+      - docker buildx history rm --all
+      - docker buildx du
+
+  clean-volumes:
+    desc: Delete all folders that are used to persist docker container data
+    prompt: Do you really want to delete these folders?
+    cmds:
+      - rm -rf authentication/ldap_server/data
+      - rm -rf monitoring/database/data
