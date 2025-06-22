@@ -33,20 +33,37 @@ kinds of data flow:
 - *Dotted lines* are reserved for telemetry and monitoring flows
 - *Dashed lines* represent file system dependency (docker volumes)
 
-## Development
+## About the Repository
 
 This project is developed as a big monorepo to avoid any induced complexity
-related to version control management (git).
+related to version control management (git), e.g. git submodules.
 
 Every domain mentioned above is developed and maintained in its own folder,
 has its own Docker Compose Stack defined in a corresponding *compose* file,
 and has its own Build Group defined in the *docker-bake* file.
 
-## Setup and configuration
+## Setup and Configuration
 
-### Authentication
+### System Requirements
 
-To setup OpenLDAP via the admin UI:
+Please install this software to have the best deployment experience,
+and to be able to follow along the instructions below:
+
+- [Docker Desktop](https://www.docker.com/products/docker-desktop/)
+- [Taskfile](https://taskfile.dev/)
+
+### Build and Deploy
+
+Run the following commands to build and start all docker services:
+
+```sh
+task build
+task start
+```
+
+### Configure Authentication
+
+To setup OpenLDAP via the Admin UI:
 
 - Visit [http://localhost:6480/setup](http://localhost:6480/setup)
 - Enter the admin password, (`admin` is the default)
