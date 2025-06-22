@@ -29,7 +29,6 @@ group "cache" {
 }
 
 target "ldap_server" {
-  dockerfile = "Dockerfile"
   context = "./authentication/ldap_server"
   platforms = ["linux/amd64"]
   args = {
@@ -39,7 +38,6 @@ target "ldap_server" {
 }
 
 target "ldap_admin" {
-  dockerfile = "Dockerfile"
   context = "./authentication/ldap_admin"
   platforms = [ "linux/amd64" ]
   args = {
@@ -49,7 +47,6 @@ target "ldap_admin" {
 }
 
 target "proxy" {
-  dockerfile = "Dockerfile"
   context = "./shinyproxy/proxy"
   platforms = [ "linux/amd64" ]
   args = {
@@ -60,8 +57,6 @@ target "proxy" {
 }
 
 target "app" {
-  # Make sure to use non-arm arch to install binary packages from P3M
-  dockerfile = "Dockerfile"
   context = "./shinyproxy/app"
   platforms = ["linux/amd64"]
   tags = ["shiny-system-design/shinyapp:latest"]
@@ -72,70 +67,60 @@ target "app" {
 
 target "database" {
   context = "./monitoring/database/"
-  dockerfile = "Dockerfile"
   platforms = [ "linux/amd64" ]
   tags = ["shiny-system-design/database:latest"]
 }
 
 target "grafana" {
   context = "./monitoring/grafana/"
-  dockerfile = "Dockerfile"
   platforms = [ "linux/amd64" ]
   tags = ["shiny-system-design/grafana:latest"]
 }
 
 target "api_dispatcher" {
   context = "./services/api_dispatcher/"
-  dockerfile = "Dockerfile"
   platforms = [ "linux/amd64" ]
   tags = [ "shiny-system-design/api_dispatcher:latest" ]
 }
 
 target "fastapi" {
   context = "./services/fastapi_api/"
-  dockerfile = "Dockerfile"
   platforms = [ "linux/amd64" ]
   tags = [ "shiny-system-design/fastapi:latest" ]
 }
 
 target "oxygen" {
   context = "./services/oxygen_api/"
-  dockerfile = "Dockerfile"
   platforms = [ "linux/amd64" ]
   tags = [ "shiny-system-design/oxygen:latest" ]
 }
 
 target "plumber" {
   context = "./services/plumber_api/"
-  dockerfile = "Dockerfile"
   platforms = [ "linux/amd64" ]
   tags = [ "shiny-system-design/plumber:latest" ]
 }
 
 target "gin" {
   context = "./services/gin_api/"
-  dockerfile = "Dockerfile"
   platforms = [ "linux/amd64" ]
   tags = [ "shiny-system-design/gin:latest" ]
 }
 
 target "express" {
   context = "./services/express_api/"
-  dockerfile = "Dockerfile"
   platforms = [ "linux/amd64" ]
   tags = [ "shiny-system-design/express:latest" ]
 }
 
 target "spring" {
   context = "./services/spring_api/"
-  dockerfile = "Dockerfile"
   platforms = [ "linux/amd64" ]
   tags = [ "shiny-system-design/spring:latest" ]
 }
 
 target "redis" {
   context = "./cache/redis/"
-  dockerfile = "Dockerfile"
   platforms = [ "linux/amd64" ]
   tags = [ "shiny-system-design/redis:latest" ]
 }
