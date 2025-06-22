@@ -1,0 +1,29 @@
+version: '3'
+
+tasks:
+  default:
+    silent: true
+    cmd: task --list
+  build:
+    desc: Build all docker images from the bake file
+    cmds:
+      - docker buildx bake
+  start:
+    desc: Start all compose services
+    aliases: [up]
+    env:
+      COMPOSE_PROFILES: auth,shinyproxy,monitoring,services,cache
+    cmds:
+      - docker-compose up
+  start-without-cache:
+    desc: Start all compose profiles except for cache
+    env:
+      COMPOSE_PROFILES: auth,shinyproxy,monitoring,services
+    cmds:
+      - docker-compose up
+  start-without-services:
+    desc: Start all compose profiles except for cache and services
+    env:
+      COMPOSE_PROFILES: auth,shinyproxy,monitoring
+    cmds:
+      - docker-compose up
