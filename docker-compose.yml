@@ -1,13 +1,16 @@
 services:
   ldap_server:
+    profiles: [auth]
     extends:
       file: ./authentication/compose.yml
       service: ldap_server
   ldap_admin:
+    profiles: [auth]
     extends:
       file: ./authentication/compose.yml
       service: ldap_admin
   shinyproxy:
+    profiles: [shinyproxy]
     extends:
       file: ./shinyproxy/compose.yml
       service: shinyproxy
@@ -15,43 +18,53 @@ services:
       ldap_server:
         condition: service_healthy
   database:
+    profiles: [monitoring]
     extends:
       file: ./monitoring/compose.yml
       service: database
   grafana:
+    profiles: [monitoring]
     attach: false
     extends:
       file: ./monitoring/compose.yml
       service: grafana
   api_dispatcher:
+    profiles: [services]
     extends:
       file: ./services/compose.yml
       service: api_dispatcher
   fastapi:
+    profiles: [services]
     extends:
       file: ./services/compose.yml
       service: fastapi
   oxygen:
+    profiles: [services]
     extends:
       file: ./services/compose.yml
       service: oxygen
   plumber:
+    profiles: [services]
     extends:
       file: ./services/compose.yml
       service: plumber
   gin:
+    profiles: [services]
     extends:
       file: ./services/compose.yml
       service: gin
   express:
+    profiles: [services]
     extends:
       file: ./services/compose.yml
       service: express
   spring:
+    profiles: [services]
     extends:
       file: ./services/compose.yml
       service: spring
   redis:
+    profiles: [cache]
     extends:
       file: ./cache/compose.yml
       service: redis
