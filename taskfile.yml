@@ -41,7 +41,6 @@ tasks:
     desc: Delete all docker resources
     prompt: This will delete absolutely all docker resources (container, images, volumes, builds). Do you want to proceed?
     cmds:
-      - docker buildx du
       - docker ps -qa || docker stop $(docker ps -qa)
       - docker ps -qa || docker rm $(docker ps -qa) -f
       - docker images -q || docker rmi $(docker images -q) -f

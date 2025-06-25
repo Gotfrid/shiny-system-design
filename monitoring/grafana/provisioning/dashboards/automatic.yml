@@ -1,0 +1,5 @@
+- name: ShinyProxy Metrics
+  folder:
+  type: file
+  options:
+    folder: /var/lib/grafana/dashboards/shinyproxy.json
