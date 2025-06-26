@@ -127,7 +127,7 @@
           }
         }
       ],
-      "title": "Requests per minute",
+      "title": "Requests per Minute",
       "type": "timeseries"
     },
     {
@@ -138,7 +138,7 @@
       "fieldConfig": {
         "defaults": {
           "color": {
-            "mode": "palette-classic"
+            "mode": "continuous-GrYlRd"
           },
           "custom": {
             "axisBorderShow": false,
@@ -146,19 +146,31 @@
             "axisColorMode": "text",
             "axisLabel": "",
             "axisPlacement": "auto",
-            "fillOpacity": 80,
-            "gradientMode": "none",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 20,
+            "gradientMode": "scheme",
             "hideFrom": {
               "legend": false,
               "tooltip": false,
               "viz": false
             },
-            "lineWidth": 1,
+            "insertNulls": false,
+            "lineInterpolation": "smooth",
+            "lineWidth": 3,
+            "pointSize": 5,
             "scaleDistribution": {
               "type": "linear"
             },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
             "thresholdsStyle": {
-              "mode": "off"
+              "mode": "line"
             }
           },
           "mappings": [],
@@ -170,11 +182,10 @@
               },
               {
                 "color": "red",
-                "value": 80
+                "value": 0.1
               }
             ]
-          },
-          "unit": "short"
+          }
         },
         "overrides": []
       },
@@ -184,28 +195,19 @@
         "x": 12,
         "y": 0
       },
-      "id": 3,
+      "id": 5,
       "options": {
-        "barRadius": 0,
-        "barWidth": 0.97,
-        "fullHighlight": false,
-        "groupWidth": 0.7,
         "legend": {
           "calcs": [],
-          "displayMode": "list",
+          "displayMode": "hidden",
           "placement": "right",
           "showLegend": false
         },
-        "orientation": "horizontal",
-        "showValue": "never",
-        "stacking": "none",
         "tooltip": {
           "hideZeros": false,
           "mode": "single",
           "sort": "none"
-        },
-        "xTickLabelRotation": 0,
-        "xTickLabelSpacing": 0
+        }
       },
       "pluginVersion": "12.0.0",
       "targets": [
@@ -213,7 +215,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "select header as api_target, count(*) as n\nfrom api_dispatcher_log \nwhere $__timeFilter(created_at)\ngroup by 1\norder by 2 desc",
+          "rawSql": "with timerange AS (\n  SELECT date_trunc('minute', series) as time\n  FROM generate_series($__timeFrom(), $__timeTo(), '1 minute'::interval) series\n),\nresponses_stat as (\n  select date_trunc('minute', created_at) as time, sum((status_code <> 200)::int) / count(*) as error_rate\n  from api_dispatcher_log \n  group by 1\n)\n\nselect\n  -- date_trunc('minute', created_at) as time,\n  a.time,\n  coalesce(sum((b.status_code <> 200)::int::float) / count(*), 0) as error_rate\nfrom timerange a left join api_dispatcher_log b\non a.time = date_trunc('minute', b.created_at)\ngroup by time\norder by time desc\n",
           "refId": "A",
           "sql": {
             "columns": [
@@ -234,8 +236,8 @@
           }
         }
       ],
-      "title": "Top API Targets by requests",
-      "type": "barchart"
+      "title": "Request Error Rate",
+      "type": "timeseries"
     },
     {
       "datasource": {
@@ -265,7 +267,7 @@
       },
       "gridPos": {
         "h": 6,
-        "w": 17,
+        "w": 15,
         "x": 0,
         "y": 6
       },
@@ -333,49 +335,71 @@
             "mode": "palette-classic"
           },
           "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "fillOpacity": 80,
+            "gradientMode": "none",
             "hideFrom": {
               "legend": false,
               "tooltip": false,
               "viz": false
+            },
+            "lineWidth": 1,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
             }
           },
           "mappings": [],
-          "noValue": "No Data"
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "short"
         },
         "overrides": []
       },
       "gridPos": {
         "h": 6,
-        "w": 7,
-        "x": 17,
+        "w": 9,
+        "x": 15,
         "y": 6
       },
-      "id": 5,
+      "id": 3,
       "options": {
-        "displayLabels": [
-          "name",
-          "percent"
-        ],
+        "barRadius": 0,
+        "barWidth": 0.97,
+        "fullHighlight": false,
+        "groupWidth": 0.7,
         "legend": {
           "calcs": [],
-          "displayMode": "hidden",
+          "displayMode": "list",
           "placement": "right",
-          "showLegend": false,
-          "values": []
+          "showLegend": false
         },
-        "pieType": "pie",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "",
-          "values": true
-        },
+        "orientation": "horizontal",
+        "showValue": "never",
+        "stacking": "none",
         "tooltip": {
           "hideZeros": false,
           "mode": "single",
           "sort": "none"
-        }
+        },
+        "xTickLabelRotation": 0,
+        "xTickLabelSpacing": 0
       },
       "pluginVersion": "12.0.0",
       "targets": [
@@ -383,7 +407,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "with ok_responses as (\n  select * from api_dispatcher_log \n  where $__timeFilter(created_at) and status_code = 200\n),\n\nbad_responses as (\n  select * from api_dispatcher_log \n  where $__timeFilter(created_at) and status_code <> 200\n)\n\nselect 'OK' as status, count(*) as n\nfrom ok_responses\nunion all\nselect 'BAD' as status, count(*) as n\nfrom bad_responses\n",
+          "rawSql": "select header as api_target, count(*) as n\nfrom api_dispatcher_log \nwhere $__timeFilter(created_at)\ngroup by 1\norder by 2 desc",
           "refId": "A",
           "sql": {
             "columns": [
@@ -404,8 +428,8 @@
           }
         }
       ],
-      "title": "Request Success Rate",
-      "type": "piechart"
+      "title": "Top API Targets by requests",
+      "type": "barchart"
     },
     {
       "datasource": {
