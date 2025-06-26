@@ -1,5 +1,15 @@
-- name: ShinyProxy Metrics
+- name: ShinyProxy
   folder:
   type: file
   options:
     folder: /var/lib/grafana/dashboards/shinyproxy.json
+- name: ShinyTelemetry
+  folder:
+  type: file
+  options:
+    folder: /var/lib/grafana/dashboards/shinytelemetry.json
+- name: ApiDispatcher
+  folder:
+  type: file
+  options:
+    folder: /var/lib/grafana/dashboards/apidispatcher.json
