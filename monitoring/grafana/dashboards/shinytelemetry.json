@@ -106,7 +106,7 @@
           "editorMode": "code",
           "format": "time_series",
           "rawQuery": true,
-          "rawSql": "with timerange as (\n  select date_trunc('day', series) as time\n  from generate_series($__timeFrom(), $__timeTo(), '1 day'::interval) series\n),\nlogins as (\n  select session, min(time) as time\n  from event_log\n  where type = 'login'\n  group by session\n),\nlogouts as (\n  select session, min(time) as time\n  from event_log\n  where type = 'logout'\n  group by session\n),\navg_session_duration as (\n  select date_trunc('day', b.time) as time, extract(epoch from avg((b.time - a.time))) / 60 as session_duration\n  from logins a\n  join logouts b on a.session = b.session\n  group by 1\n)\n\nselect a.time, coalesce(b.session_duration, 0) as avg_session_duration_minutes\nfrom timerange a\nleft join avg_session_duration b\non a.time = b.time\n",
+          "rawSql": "with timerange as (\n  select date_trunc('day', series) as time\n  from generate_series($__timeFrom(), $__timeTo(), '1 day'::interval) series\n),\nlogins as (\n  select session, min(time) as time\n  from event_log\n  where type = 'login'\n  group by session\n),\nlogouts as (\n  select session, min(time) as time\n  from event_log\n  where type = 'logout'\n  group by session\n),\navg_session_duration as (\n  select date_trunc('day', b.time) as time, extract(epoch from avg((b.time - a.time))) as session_duration\n  from logins a\n  join logouts b on a.session = b.session\n  group by 1\n)\n\nselect a.time, coalesce(b.session_duration, 0) as avg_session_duration\nfrom timerange a\nleft join avg_session_duration b\non a.time = b.time\n",
           "refId": "A",
           "sql": {
             "columns": [
@@ -127,7 +127,7 @@
           }
         }
       ],
-      "title": "Average Session Duration, minutes",
+      "title": "Average Session Duration, seconds",
       "type": "timeseries"
     },
     {
@@ -188,7 +188,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "with timerange as (\n  select date_trunc('day', series) as time\n  from generate_series($__timeFrom(), $__timeTo(), '1 day'::interval) series\n),\nlogins as (\n  select session, min(time) as time\n  from event_log\n  where type = 'login'\n  group by session\n),\nlogouts as (\n  select session, min(time) as time\n  from event_log\n  where type = 'logout'\n  group by session\n),\nusersessions as (\n  select distinct session, details::json->'username'->>0 as username\n  from event_log \n  where type = 'login'\n)\n\nselect\n  date_trunc('second', a.time) as start,\n  date_trunc('second', b.time) as end,\n  a.session as session_id,\n  c.username,\n  (b.time - a.time) as session_duration\nfrom logins a\njoin logouts b on a.session = b.session\njoin usersessions c on a.session = c.session\norder by 1 desc;",
+          "rawSql": "with timerange as (\n  select date_trunc('day', series) as time\n  from generate_series($__timeFrom(), $__timeTo(), '1 day'::interval) series\n),\nlogins as (\n  select session, min(time) as time\n  from event_log\n  where type = 'login'\n  group by session\n),\nlogouts as (\n  select session, min(time) as time\n  from event_log\n  where type = 'logout'\n  group by session\n),\nusersessions as (\n  select distinct session, details::json->'username'->>0 as username\n  from event_log \n  where type = 'login'\n)\n\nselect\n  date_trunc('second', a.time) as start,\n  date_trunc('second', b.time) as end,\n  a.session as session_id,\n  c.username,\n  (b.time - a.time) as session_duration\nfrom logins a\njoin logouts b on a.session = b.session\njoin usersessions c on a.session = c.session\nwhere $__timeFilter(a.time) or $__timeFilter(b.time)\norder by 1 desc;",
           "refId": "A",
           "sql": {
             "columns": [
@@ -295,7 +295,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "-- select * from event_log order by time desc;\n\n-- WITH timerange AS (\n--   SELECT date_trunc('minute', series) as time\n--   FROM generate_series($__timeFrom(), $__timeTo(), '1 minute'::interval) series\n-- ),\n\n-- inputs_agg AS (\n--   select date_trunc('minute', time) as time, count(*) as n\n--   from event_log\n--   where type = 'input'\n--   GROUP BY 1\n-- )\n\n-- select a.time, coalesce(b.n, 0) as n\n-- from timerange a left join inputs_agg b\n-- on a.time = b.time;\n\nwith input_values as (\nselect\n  details :: json -> 'id' ->> 0 as input_id,\n  details :: json -> 'value' ->> 0 as input_value\nfrom\n  event_log\nwhere\n  type = 'input'\n)\n\nselect input_value as api_target, count(*) as n\nfrom input_values\nwhere input_id = 'api_target'\ngroup by input_value\norder by 2 desc;\n",
+          "rawSql": "with input_values as (\nselect\n  details :: json -> 'id' ->> 0 as input_id,\n  details :: json -> 'value' ->> 0 as input_value\nfrom\n  event_log\nwhere\n  type = 'input' and $__timeFilter(time)\n)\n\nselect input_value as api_target, count(*) as n\nfrom input_values\nwhere input_id = 'api_target'\ngroup by input_value\norder by 2 desc;\n",
           "refId": "A",
           "sql": {
             "columns": [
@@ -384,7 +384,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "select\n  details :: json -> 'value' ->> 0 as browser,\n  count (*) as n\nfrom\n  event_log\nwhere\n  type = 'browser'\ngroup by\n  1",
+          "rawSql": "select\n  details :: json -> 'value' ->> 0 as browser,\n  count (*) as n\nfrom\n  event_log\nwhere\n  type = 'browser' and $__timeFilter(time)\ngroup by\n  1",
           "refId": "A",
           "sql": {
             "columns": [
@@ -618,7 +618,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "select * from event_log order by time desc;",
+          "rawSql": "select * from event_log where $__timeFilter(time) order by time desc;",
           "refId": "A",
           "sql": {
             "columns": [
@@ -639,7 +639,7 @@
           }
         }
       ],
-      "title": "Raw Telemetry Log",
+      "title": "Raw Logs",
       "type": "table"
     }
   ],

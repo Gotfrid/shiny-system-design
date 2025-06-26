@@ -247,7 +247,7 @@
         "type": "grafana-postgresql-datasource",
         "uid": "PB9962EBC559C16E4"
       },
-      "description": "All logs of the ShinyProxy instance",
+      "description": "",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -278,7 +278,7 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 7,
+        "h": 12,
         "w": 24,
         "x": 0,
         "y": 8
@@ -288,7 +288,7 @@
         "cellHeight": "sm",
         "footer": {
           "countRows": false,
-          "enablePagination": false,
+          "enablePagination": true,
           "fields": "",
           "reducer": [
             "sum"
@@ -313,7 +313,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "select *\nfrom event\nwhere 1 = 1\n  and event_time BETWEEN $__timeFrom() and $__timeTo()\norder by event_time desc\n",
+          "rawSql": "select *\nfrom event\nwhere $__timeFilter(event_time)\norder by event_time desc\n",
           "refId": "A",
           "sql": {
             "columns": [
@@ -334,7 +334,7 @@
           }
         }
       ],
-      "title": "ShinyProxy Log",
+      "title": "Raw Logs",
       "type": "table"
     }
   ],
