@@ -13,6 +13,7 @@ ui <- function(request) {
   page_sidebar(
     sidebar = sidebar(
       selectizeInput("api_target", "API Target", api_frameworks),
+      checkboxInput('api_force_fail', "Force Fail Request"),
       input_task_button("make_request", "Make Request")
     ),
     use_telemetry(),
@@ -37,7 +38,9 @@ server <- function(input, output, session) {
   })
 
   observeEvent(api_request_trigger(), {
-    new_log_line <- make_request(input$api_target, redis_client)
+    new_log_line <- make_request(
+      input$api_target, input$api_force_fail, redis_client
+    )
     paste0(responses_log(), new_log_line) |> responses_log()
     update_task_button("make_request", state = "ready")
   })
