@@ -470,7 +470,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "select * from api_dispatcher_log order by created_at desc\n",
+          "rawSql": "select * from api_dispatcher_log where $__timeFilter(created_at) order by created_at desc\n",
           "refId": "A",
           "sql": {
             "columns": [
@@ -491,7 +491,7 @@
           }
         }
       ],
-      "title": "Raw Logs (all time)",
+      "title": "Raw Logs",
       "type": "table"
     }
   ],
