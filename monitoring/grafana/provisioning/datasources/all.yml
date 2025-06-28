@@ -7,7 +7,7 @@ datasources:
     typeName: PostgreSQL
     typeLogoUrl: public/app/plugins/datasource/grafana-postgresql-datasource/img/postgresql_logo.svg
     access: proxy
-    url: database:5432
+    url: monitoring_db:5432
     user: postgres
     secureJsonData:
       password: postgres

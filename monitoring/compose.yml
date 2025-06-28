@@ -1,14 +1,14 @@
 services:
-  database:
-    container_name: database
-    image: shiny-system-design/database:latest
+  monitoring_db:
+    container_name: monitoring_db
+    image: shiny-system-design/monitoring_db:latest
     pull_policy: never
     restart: always
     user: postgres
     ports:
       - 5432:5432
     volumes:
-      - ./database/data:/var/lib/postgresql/data 
+      - ./monitoring_db/data:/var/lib/postgresql/data 
     healthcheck:
       test: ["CMD-SHELL", "pg_isready", "-U", "postgres"]
       interval: 1s

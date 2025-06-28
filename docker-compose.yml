@@ -20,12 +20,14 @@ services:
     depends_on:
       ldap_server:
         condition: service_healthy
-  database:
+      monitoring_db:
+        condition: service_healthy
+  monitoring_db:
     profiles: [monitoring]
     env_file: [variables.env]
     extends:
       file: ./monitoring/compose.yml
-      service: database
+      service: monitoring_db
   grafana:
     profiles: [monitoring]
     env_file: [variables.env]
@@ -39,6 +41,9 @@ services:
     extends:
       file: ./services/compose.yml
       service: api_dispatcher
+    depends_on:
+      monitoring_db:
+        condition: service_healthy
   fastapi:
     profiles: [services]
     extends:

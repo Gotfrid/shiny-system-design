@@ -17,7 +17,7 @@ group "shinyproxy" {
 }
 
 group "monitoring" {
-  targets = [ "grafana", "database" ]
+  targets = [ "grafana", "monitoring_db" ]
 }
 
 group "services" {
@@ -65,10 +65,10 @@ target "app" {
   }
 }
 
-target "database" {
-  context = "./monitoring/database/"
+target "monitoring_db" {
+  context = "./monitoring/monitoring_db/"
   platforms = [ "linux/amd64" ]
-  tags = ["shiny-system-design/database:latest"]
+  tags = ["shiny-system-design/monitoring_db:latest"]
 }
 
 target "grafana" {

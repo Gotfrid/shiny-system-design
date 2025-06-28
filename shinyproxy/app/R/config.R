@@ -9,7 +9,7 @@ api_frameworks <- c(
 
 pg_usr <- Sys.getenv("PG_USR", "postgres")
 pg_pwd <- Sys.getenv("PG_PWD", "postgres")
-pg_host <- Sys.getenv("PG_HOST", "database")
+pg_host <- Sys.getenv("PG_HOST", "monitoring_db")
 pg_port <- as.numeric(Sys.getenv("PG_PORT", "5432"))
 pg_db <- Sys.getenv("PG_DB", "postgres")
 

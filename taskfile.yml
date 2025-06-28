@@ -73,7 +73,7 @@ tasks:
     prompt: Do you really want to delete these folders?
     cmds:
       - Remove-Item -LiteralPath "authentication/ldap_server/data" -Force -Recurse
-      - Remove-Item -LiteralPath "monitoring/database/data" -Force -Recurse
+      - Remove-Item -LiteralPath "monitoring/monitoring_db/data" -Force -Recurse
   
   clean-volumes-unix:
     internal: true
@@ -81,4 +81,4 @@ tasks:
     prompt: Do you really want to delete these folders?
     cmds:
       - rm -rf authentication/ldap_server/data
-      - rm -rf monitoring/database/data
+      - rm -rf monitoring/monitoring_db/data

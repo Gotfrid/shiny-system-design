@@ -26,7 +26,7 @@ proxy:
       container-image: shiny-system-design/shinyapp:latest
       container-network-connections: [ ssd-network ]
       container-env-file: variables.env
-  usage-stats-url: jdbc:postgresql://database:5432/postgres?user=postgres&password=postgres&ssl=false
+  usage-stats-url: jdbc:postgresql://monitoring_db:5432/postgres?user=postgres&password=postgres&ssl=false
   container-log-path: /var/log/shinyproxy/container-logs
 
 logging:
