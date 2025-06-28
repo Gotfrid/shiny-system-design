@@ -1,7 +1,7 @@
 services:
-  kv_database:
-    container_name: kv_database
-    image: shiny-system-design/kv_database:latest
+  cache_db:
+    container_name: cache_db
+    image: shiny-system-design/cache_db:latest
     pull_policy: never
     restart: always
     networks:

@@ -74,12 +74,12 @@ services:
     extends:
       file: ./services/compose.yml
       service: spring
-  kv_database:
+  cache_db:
     profiles: [cache]
     env_file: [variables.env]
     extends:
       file: ./cache/compose.yml
-      service: kv_database
+      service: cache_db
 
 networks:
   ssd-network:

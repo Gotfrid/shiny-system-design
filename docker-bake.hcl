@@ -25,7 +25,7 @@ group "services" {
 }
 
 group "cache" {
-  targets = [ "kv_database" ]
+  targets = [ "cache_db" ]
 }
 
 target "ldap_server" {
@@ -119,8 +119,8 @@ target "spring" {
   tags = [ "shiny-system-design/spring:latest" ]
 }
 
-target "kv_database" {
-  context = "./cache/kv_database/"
+target "cache_db" {
+  context = "./cache/cache_db/"
   platforms = [ "linux/amd64" ]
-  tags = [ "shiny-system-design/kv_database:latest" ]
+  tags = [ "shiny-system-design/cache_db:latest" ]
 }
