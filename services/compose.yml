@@ -1,41 +1,48 @@
 services:
   api_dispatcher:
+    platform: linux/amd64
     container_name: api_dispatcher
     image: shiny-system-design/api_dispatcher:latest
     pull_policy: never
     networks:
       - ssd-network
   fastapi:
+    platform: linux/amd64
     container_name: fastapi
     image: shiny-system-design/fastapi:latest
     pull_policy: never
     networks:
       - ssd-network
   oxygen:
+    platform: linux/amd64
     container_name: oxygen
     image: shiny-system-design/oxygen:latest
     pull_policy: never
     networks:
       - ssd-network
   plumber:
+    platform: linux/amd64
     container_name: plumber
     image: shiny-system-design/plumber:latest
     pull_policy: never
     networks:
       - ssd-network
   gin:
+    platform: linux/amd64
     container_name: gin
     image: shiny-system-design/gin:latest
     pull_policy: never
     networks:
       - ssd-network
   express:
+    platform: linux/amd64
     container_name: express
     image: shiny-system-design/express:latest
     pull_policy: never
     networks:
       - ssd-network
   spring:
+    platform: linux/amd64
     container_name: spring
     image: shiny-system-design/spring:latest
     pull_policy: never

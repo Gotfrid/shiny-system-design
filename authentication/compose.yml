@@ -1,5 +1,6 @@
 services: 
   ldap_server:
+    platform: linux/amd64
     container_name: ldap_server
     image: shiny-system-design/ldap_server:latest
     pull_policy: never
@@ -20,6 +21,7 @@ services:
 
 
   ldap_admin:
+    platform: linux/amd64
     container_name: ldap_admin
     image: shiny-system-design/ldap_admin:latest
     pull_policy: never

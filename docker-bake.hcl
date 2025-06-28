@@ -30,7 +30,7 @@ group "cache" {
 
 target "ldap_server" {
   context = "./authentication/ldap_server"
-  platforms = ["linux/amd64"]
+  platforms = [ "linux/amd64" ]
   args = {
     OPENLDAP_VERSION = "1.1.8"
   }
@@ -58,7 +58,7 @@ target "proxy" {
 
 target "app" {
   context = "./shinyproxy/app"
-  platforms = ["linux/amd64"]
+  platforms = [ "linux/amd64" ]
   tags = ["shiny-system-design/shinyapp:latest"]
   args = {
     R_VERSION = "4.5.0"

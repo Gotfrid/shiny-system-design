@@ -1,5 +1,6 @@
 services:
   cache_db:
+    platform: linux/amd64
     container_name: cache_db
     image: shiny-system-design/cache_db:latest
     pull_policy: never

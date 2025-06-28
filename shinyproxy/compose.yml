@@ -1,5 +1,6 @@
 services:
   shinyproxy:
+    platform: linux/amd64
     container_name: shinyproxy
     image: shiny-system-design/shinyproxy:latest
     pull_policy: never

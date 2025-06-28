@@ -23,7 +23,16 @@ tasks:
     aliases: [up]
     env:
       COMPOSE_PROFILES: auth,shinyproxy,monitoring,services,cache
-    cmd: docker-compose up {{.CLI_ARGS}}
+    cmd: docker compose --project-name shiny-system-design up --detach --remove-orphans {{.CLI_ARGS}}
+
+  logs:
+    desc: Attach to docker compose services and follow the logs
+    cmd: docker compose --project-name shiny-system-design logs --follow
+
+  stop:
+    desc: Stop all compose services
+    aliases: [down]
+    cmd: docker compose --project-name shiny-system-design down -v
 
   start-without-cache:
     desc: Start all compose profiles except for cache

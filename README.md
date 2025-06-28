@@ -59,6 +59,8 @@ Run the following commands to build and start all docker services:
 ```sh
 task build
 task start
+task logs
+task stop
 ```
 
 ### Configure Authentication
