@@ -1,7 +1,7 @@
 services:
-  redis:
-    container_name: redis
-    image: shiny-system-design/redis:latest
+  kv_database:
+    container_name: kv_database
+    image: shiny-system-design/kv_database:latest
     pull_policy: never
     restart: always
     networks:

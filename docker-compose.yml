@@ -69,12 +69,12 @@ services:
     extends:
       file: ./services/compose.yml
       service: spring
-  redis:
+  kv_database:
     profiles: [cache]
     env_file: [variables.env]
     extends:
       file: ./cache/compose.yml
-      service: redis
+      service: kv_database
 
 networks:
   ssd-network:
