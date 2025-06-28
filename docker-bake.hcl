@@ -17,7 +17,7 @@ group "shinyproxy" {
 }
 
 group "monitoring" {
-  targets = [ "grafana", "monitoring_db" ]
+  targets = [ "monitoring_db", "grafana", "loki", "alloy" ]
 }
 
 group "services" {
@@ -123,4 +123,16 @@ target "cache_db" {
   context = "./cache/cache_db/"
   platforms = [ "linux/amd64" ]
   tags = [ "shiny-system-design/cache_db:latest" ]
+}
+
+target "alloy" {
+  context = "./monitoring/alloy/"
+  platforms = [ "linux/amd64" ]
+  tags = [ "shiny-system-design/alloy:latest" ]
+}
+
+target "loki" {
+  context = "./monitoring/loki/"
+  platforms = [ "linux/amd64" ]
+  tags = [ "shiny-system-design/loki:latest" ]
 }

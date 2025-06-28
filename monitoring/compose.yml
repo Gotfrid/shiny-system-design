@@ -27,20 +27,13 @@ services:
       - ssd-network
   loki:
     container_name: loki
-    image: grafana/loki:latest
-    ports:
-      - 3100:3100
-    volumes:
-      - ./loki/config.yaml:/etc/loki/loki-config.yaml
+    image: shiny-system-design/loki:latest
+    pull_policy: never
     networks:
       - ssd-network
   alloy:
     container_name: alloy
-    image: grafana/alloy:latest
-    volumes:
-      - ./alloy/config.alloy:/mnt/config/config.alloy
-    ports:
-      - 12345:12345
-    command: run --server.http.listen-addr=0.0.0.0:12345 /mnt/config/config.alloy
+    image: shiny-system-design/alloy:latest
+    pull_policy: never
     networks:
       - ssd-network
