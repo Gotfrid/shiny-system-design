@@ -6,7 +6,7 @@ System design for Shiny developers based around Shinyproxy deployment.
 
 This project is built around the idea of a domain oriented microservices architecture.
 
-![architecture-diagram](./architecture.png)
+![architecture-diagram](./architecture.svg)
 
 Every white box on the diagram represents a single docker container.
 
