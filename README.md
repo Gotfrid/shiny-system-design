@@ -31,7 +31,7 @@ kinds of data flow:
 - *Thick lines* are the main inter-domain flow of logic
 - *Thin lines* inside the domain boundaries represent intra-domain communication
 - *Dotted lines* are reserved for telemetry and monitoring flows
-- *Dashed lines* represent file system dependency (docker volumes)
+- *Dashed lines* represent filesystem usage (via docker volumes)
 
 ## About the Repository
 
