@@ -20,7 +20,7 @@ proxy:
   specs:
     - id: api_explorer
       display-name: API Explorer
-      description: Simple shiny app demonstrating usage of ExtendedTask for various API requests.
+      description: Simple shiny app  that makes various API requests.
       access-groups: [ admins, users ]
       container-cmd: [ "R", "-e", "shiny::runApp(host = '0.0.0.0', port = 3838L)" ]
       container-image: shiny-system-design/shinyapp:latest
@@ -30,5 +30,6 @@ proxy:
   container-log-path: /var/log/shinyproxy/container-logs
 
 logging:
+  requestdump: true
   file:
     path: /var/log/shinyproxy/proxy-logs
