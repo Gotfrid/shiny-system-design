@@ -22,6 +22,8 @@ services:
         condition: service_healthy
       monitoring_db:
         condition: service_healthy
+    volumes:
+    - .logs/shinyproxy:/var/log/shinyproxy
   monitoring_db:
     profiles: [monitoring]
     env_file: [variables.env]

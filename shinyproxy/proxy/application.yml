@@ -18,7 +18,7 @@ proxy:
     internal-networking: true
     image-pull-policy: Never
   specs:
-    - id: api_explorer
+    - id: api-explorer
       display-name: API Explorer
       description: Simple shiny app  that makes various API requests.
       access-groups: [ admins, users ]
