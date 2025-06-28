@@ -21,3 +21,12 @@ datasources:
       maxOpenConns: 100
       sslmode: disable
     readOnly: false
+  - id: 2
+    name: Loki
+    type: loki
+    access: proxy
+    url: http://loki:3100
+    basicAuth: false
+    isDefault: false
+    version: 1
+    editable: false

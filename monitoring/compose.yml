@@ -25,3 +25,22 @@ services:
       - 3000:3000
     networks:
       - ssd-network
+  loki:
+    container_name: loki
+    image: grafana/loki:latest
+    ports:
+      - 3100:3100
+    volumes:
+      - ./loki/config.yaml:/etc/loki/loki-config.yaml
+    networks:
+      - ssd-network
+  alloy:
+    container_name: alloy
+    image: grafana/alloy:latest
+    volumes:
+      - ./alloy/config.alloy:/mnt/config/config.alloy
+    ports:
+      - 12345:12345
+    command: run --server.http.listen-addr=0.0.0.0:12345 /mnt/config/config.alloy
+    networks:
+      - ssd-network

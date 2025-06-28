@@ -37,6 +37,22 @@ services:
     extends:
       file: ./monitoring/compose.yml
       service: grafana
+  loki:
+    profiles: [monitoring]
+    env_file: [variables.env]
+    attach: false
+    extends:
+      file: ./monitoring/compose.yml
+      service: loki
+  alloy:
+    profiles: [monitoring]
+    env_file: [variables.env]
+    attach: false
+    extends:
+      file: ./monitoring/compose.yml
+      service: alloy
+    volumes:
+      - .logs:/var/log
   api_dispatcher:
     profiles: [services]
     env_file: [variables.env]
