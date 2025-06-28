@@ -30,6 +30,5 @@ proxy:
   container-log-path: /var/log/shinyproxy/container-logs
 
 logging:
-  requestdump: true
   file:
     path: /var/log/shinyproxy/proxy-logs
