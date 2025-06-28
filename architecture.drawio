@@ -1,6 +1,6 @@
 <mxfile host="65bd71144e">
     <diagram id="i8Fxyg8KbR1eDPJhbFrh" name="Page-1">
-        <mxGraphModel dx="867" dy="657" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+        <mxGraphModel dx="451" dy="580" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
@@ -43,7 +43,7 @@
                 <mxCell id="46" value="&lt;b&gt;Cache&lt;/b&gt;" style="whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;verticalAlign=top;sketch=1;curveFitting=1;jiggle=2;" parent="55" vertex="1">
                     <mxGeometry width="200" height="120" as="geometry"/>
                 </mxCell>
-                <mxCell id="47" value="KV Database" style="whiteSpace=wrap;html=1;sketch=1;curveFitting=1;jiggle=2;" parent="55" vertex="1">
+                <mxCell id="47" value="Cache DB&lt;div&gt;(Valkey)&lt;/div&gt;" style="whiteSpace=wrap;html=1;sketch=1;curveFitting=1;jiggle=2;" parent="55" vertex="1">
                     <mxGeometry x="40" y="40" width="120" height="40" as="geometry"/>
                 </mxCell>
                 <mxCell id="77" style="edgeStyle=none;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeWidth=3;sketch=1;curveFitting=1;jiggle=2;" parent="1" source="13" target="47" edge="1">
@@ -73,7 +73,7 @@
                 <mxCell id="29" value="&lt;b&gt;Monitoring&lt;/b&gt;" style="whiteSpace=wrap;html=1;verticalAlign=top;fillColor=#dae8fc;strokeColor=#6c8ebf;container=0;sketch=1;curveFitting=1;jiggle=2;" parent="1" vertex="1">
                     <mxGeometry x="680" y="40" width="200" height="200" as="geometry"/>
                 </mxCell>
-                <mxCell id="30" value="SQL Database" style="whiteSpace=wrap;html=1;container=0;sketch=1;curveFitting=1;jiggle=2;" parent="1" vertex="1">
+                <mxCell id="30" value="Monitoring DB&lt;div&gt;(PostgreSQL)&lt;/div&gt;" style="whiteSpace=wrap;html=1;container=0;sketch=1;curveFitting=1;jiggle=2;" parent="1" vertex="1">
                     <mxGeometry x="720" y="160" width="120" height="40" as="geometry"/>
                 </mxCell>
                 <mxCell id="90" value="" style="edgeStyle=none;html=1;sketch=1;curveFitting=1;jiggle=2;" parent="1" source="31" target="30" edge="1">
