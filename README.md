@@ -120,3 +120,44 @@ from inputs
 group by input_id, input_value
 order by n desc
 ```
+
+## Development
+
+### Devcontainers
+
+In my personal experience, projects written in Python and JavaScript (TypeScript) often do not require any special configuration.
+
+But for R projects I tend to always configure a devcontainer to avoid any
+implicit system dependencies or build-from-source caveats.
+
+In fact, the core R/Shiny application of this project comes preconfigured
+with a [devcontainer](./shinyproxy/app/.devcontainer/devcontainer.json).
+
+### Git Commits
+
+It is strongly recommended to use [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/).
+Furthermore, for large projects like this I recommend to incorporate
+the domain-oriented approach described in the Architecture section
+in the commit messaging structure by prefixing every commit title the following way:
+
+- `[root]` if a change affects overall configuration of the project
+- `[domain]` if a change affects configuration of a certain domain, or a change affects multiple subdomains
+- `[domain/subdomain]` if a change is limited to a specific service
+
+See example below, an excerpt of the git commit history of this project:
+
+```txt
+ca8ebe8 [root] refactor: overall improvement of start & stop commands
+59f2e32 [monitoring] refactor: define dockerfiles for loki and alloy
+5cbbbd2 [root] chore: use svg img of arch diagram
+269a6dc [root] refactor: improve diagram positioning
+28a467b [root] feat: add loki and alloy to the architecture diagram
+bc43142 [monitoring] feat: configure loki and alloy
+2bc4a7f [shinyproxy/proxy] feat: mount logs to the host disk
+84d0811 [shinyproxy/proxy] chore: do not dump request info
+2139d10 [shinyproxy/proxy] chore: update app description
+481dfc9 [root] refactor: update architecture scheme
+1535d60 [root] refactor: read existing env file
+14ac816 [cache/cache_db] refactor: rename kv_database into cache_db
+71501ab [monitoring/db] refactor: rename monitoring_db
+```
