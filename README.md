@@ -22,10 +22,9 @@ The containers are grouped based on the domain boundaries:
 
 ...thus comprising a total of 5 domains.
 
->[!NOTE]
->**Persistent Storage** is not an actual domain, but rather
->a visual convenience to demonstrate the dependency on the
-> file system of a host server.
+Please note that **Persistent Storage** is not an actual domain, but rather
+a visual convenience to demonstrate the dependency on the
+ file system of a host server.
 
 There are 4 types of lines on the diagrams that represent different
 kinds of data flow:
