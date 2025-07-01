@@ -88,18 +88,60 @@ You can check the pre-configured tasks by running the following command:
 task --list
 ```
 
-### Build and Deploy
+### Build
 
-Run the following commands to build and start all docker services:
+To avoid any confusion, all services used in this project
+are built into dedicated docker images and given a corresponding docker tag.
+
+For example, we use PostgreSQL to store telemetry logs,
+so we need a Postgres Docker Image.
+We could pull & run postgres image directly via Docker Compose,
+but instead I suggest that we create a minimal [Dockerfile](./monitoring/monitoring_db/Dockerfile),
+add a build entry to the [Bakefile](./docker-bake.hcl#L68), and only then run it via [Compose](./monitoring/compose.yml#L5)
+
+This approach is debatable, but I think it adds clarity:
+all images used in the project are prefixed with `shiny-system-design`,
+and at any time we can add `COPY` or any other Docker Layer to the corresponding Dockerfile without disrupting the overall process.
+
+Also, notice how in this case the service is called `monitoring_db`,
+thus abstracting away the actual RDBS being used.
+
+Anyway, to build all docker images configured in the Bakefile
+simply run:
 
 ```sh
 task build
-task start
-task logs
-task stop
 ```
 
-### Configure Authentication
+### Deploy Locally
+
+Once all docker images are built and available locally, we can start the Compose services in detached mode, and then immediately start following the logs:
+
+```sh
+task start
+task logs
+```
+
+When we want to shutdown the setup:
+
+```sh
+task down
+```
+
+Running docker-compose in detached mode has some tradeoffs.
+
+- Pros
+  - Current terminal is not blocked
+  - Interrupting the task would stop containers, but not remove them
+    - In some cases, it might be pretty annoying because containers like Redis (or Valkey) create anonymous volumes to persist the data storage
+- Cons
+  - The main downside of this approach is that `docker compose logs` is known to show logs in the wrong order
+    - Logs are sorted per-container, not globally
+
+### Authentication
+
+When the project is launched for the very first time,
+the authentication will need to be configured.
 
 To setup OpenLDAP via the Admin UI:
 
