@@ -47,11 +47,46 @@ and has its own Build Group defined in the *docker-bake* file.
 
 ### System Requirements
 
-Please install this software to have the best deployment experience,
-and to be able to follow along the instructions below:
+This is a fairly complex project, so to manage it we need to install a couple of tools:
 
-- [Docker Desktop](https://www.docker.com/products/docker-desktop/)
-- [Taskfile](https://taskfile.dev/)
+#### [Docker Desktop](https://www.docker.com/products/docker-desktop/)
+
+Docker is at the heart of this whole setup: all services are docker containers that are run from docker images.
+
+Personally, I recommend to install Docker Desktop distribution
+for a few reasons:
+
+- It has a nice interface to inspect running containers (logs, filesystem, access to the terminal)
+- Docker Desktop comes with Compose and Bake so you don't have to worry about installing them separately
+  - Compose is a well-known docker tool to manage multiple services, their environment variables, ports and networks
+  - [Bake](https://docs.docker.com/build/bake/) is a relatively new tool that allows to centrally configure image building options
+  - If it helps you, I like to think that Docker Compose is a toolf for containers, while Docker Bake is a tool for images
+
+#### [Taskfile](https://taskfile.dev/)
+
+Taskfile is a CLI application that allows you to create and control "tasks" - any commands that can be executed in the terminal.
+
+This is often not a mandatory tool - I could just add shell commands to the README, and then just copy-paste them into the terminal every time.
+
+However, in this case, Taskfile helps ensure sure that this project is platform-agnostic.
+For example, we need to copy *variables.env* file into the Shinyproxy folder before we build docker images.
+Taskfile handles this problem smoothly by running an appropriate task whether is on [Windows](taskfile.yml#L69) or a [Unix](taskfile.yml#L74) system.
+
+#### Configuration Files
+
+| Name | Config File |
+|------|--------------|
+|Taskfile|[taskfile.yml](taskfile.yml)|
+|Docker Compose|[docker-compose.yml](docker-compose.yml)|
+|Docker Bake|[docker-bake.hcl](docker-bake.hcl)|
+
+#### Available Tasks
+
+You can check the pre-configured tasks by running the following command:
+
+```sh
+task --list
+```
 
 ### Build and Deploy
 
