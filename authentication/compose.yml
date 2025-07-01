@@ -4,9 +4,6 @@ services:
     container_name: ldap_server
     image: shiny-system-design/ldap_server:latest
     pull_policy: never
-    ports:
-      - 389:389
-      - 636:636
     networks:
       - ssd-network
     volumes:
@@ -25,9 +22,6 @@ services:
     container_name: ldap_admin
     image: shiny-system-design/ldap_admin:latest
     pull_policy: never
-    ports:
-      - 6480:80 
-      - 6443:443
     networks:
       - ssd-network
     depends_on:

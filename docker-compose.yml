@@ -11,6 +11,8 @@ services:
     extends:
       file: ./authentication/compose.yml
       service: ldap_admin
+    ports:
+      - 6480:80 
   shinyproxy:
     profiles: [shinyproxy]
     env_file: [variables.env]
@@ -24,6 +26,8 @@ services:
         condition: service_healthy
     volumes:
     - .logs/shinyproxy:/var/log/shinyproxy
+    ports:
+      - 8080:8080
   monitoring_db:
     profiles: [monitoring]
     env_file: [variables.env]
@@ -37,6 +41,8 @@ services:
     extends:
       file: ./monitoring/compose.yml
       service: grafana
+    ports:
+      - 3000:3000
   loki:
     profiles: [monitoring]
     env_file: [variables.env]

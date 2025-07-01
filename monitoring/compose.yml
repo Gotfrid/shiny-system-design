@@ -6,8 +6,6 @@ services:
     pull_policy: never
     restart: always
     user: postgres
-    ports:
-      - 5432:5432
     volumes:
       - ./monitoring_db/data:/var/lib/postgresql/data 
     healthcheck:
@@ -23,8 +21,6 @@ services:
     image: shiny-system-design/grafana:latest
     pull_policy: never
     restart: always
-    ports:
-      - 3000:3000
     networks:
       - ssd-network
   loki:

@@ -7,7 +7,5 @@ services:
     restart: always
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
-    ports:
-      - 8080:8080
     networks:
       - ssd-network
