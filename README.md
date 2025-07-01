@@ -138,6 +138,19 @@ Running docker-compose in detached mode has some tradeoffs.
   - The main downside of this approach is that `docker compose logs` is known to show logs in the wrong order
     - Logs are sorted per-container, not globally
 
+### Access Resources
+
+Once the deployment is successfully complete, you might be interested in one of the three services that are "exposed" to the host machine:
+
+- Shinyproxy: [http://localhost:8080](http://localhost:8080)
+- LDAP Manager: [http://localhost:6480](http://localhost:6480)
+- Grafana: [http://localhost:3000](http://localhost:3000)
+
+Notice, that we only expose what is absolutely necessary.
+Things like Databases, API services, LDAP server are only available to other Docker services via the shared Docker Network.
+This is a good security practice that limits the external access into the system.
+Moreover, all three exposed applications have authentication mechanisms (Grafana login is disabled for convenience, but can be easily enabled via environment variable).
+
 ### Authentication
 
 When the project is launched for the very first time,
@@ -151,7 +164,7 @@ To setup OpenLDAP via the Admin UI:
 - Click "Create new account" button
 - Complete the form (you may skip email)
   - This is going to be the first user in the system, i.e. *the* admin
-  - It is recommended to give them a distinct name, e.g. `super-admin`
+  - It is recommended to give them a distinct first and last name, e.g. `super admin`
 - Once done, click "Finish" button
 - Proceed to login
   - By default, login is the combination of first and last names separated with a `-`
