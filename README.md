@@ -2,6 +2,8 @@
 
 System design for Shiny developers based around Shinyproxy deployment.
 
+This material was first presented at the **[useR! 2025](https://user2025.r-project.org/)** conference.
+
 ## Architecture
 
 This project is built around the idea of a domain oriented microservices architecture.
